@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.VideoView;
 
 import com.storeyfilms.zenith.doc.LinkInfo;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private VideoView               m_vvMain;
     private Button                  m_butLogin;
+    private ProgressBar             m_progressBar;
 
     private MediaController         m_mediaController;
 
@@ -47,13 +49,15 @@ public class MainActivity extends AppCompatActivity {
 
         m_vvMain = (VideoView)findViewById(R.id.vv_main);
         m_butLogin = (Button)findViewById(R.id.but_login);
+        m_progressBar = (ProgressBar) findViewById(R.id.pb_spinner);
         m_blIsFirst = true;
         m_iVideoIndex = -1;
 
-        //Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" +R.raw.first);
-        Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/push.mov");
+        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" +R.raw.first);
+       // Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/Twitter_prize_LOOP_480_SOUND.mov");
         m_vvMain.setVideoURI(video);
-        m_vvMain.start();
+
+        m_progressBar.setVisibility(View.VISIBLE);
 
         m_vvMain.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -110,7 +114,8 @@ public class MainActivity extends AppCompatActivity {
         m_vvMain.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
-                //mediaPlayer.setLooping(true);
+                m_progressBar.setVisibility(View.GONE);
+                m_vvMain.start();
             }
         });
 
@@ -142,9 +147,10 @@ public class MainActivity extends AppCompatActivity {
         m_curVideoInfo = m_videoList.get(m_iVideoIndex);
         if (m_curVideoInfo == null) return;
 
+        m_curVideoInfo.state = VideoInfo.LOOP_STATE;
         Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.loopVideo);
         m_vvMain.setVideoURI(video);
-        m_vvMain.start();
+        m_progressBar.setVisibility(View.VISIBLE);
     }
 
     private void playSwipeVideo() {
@@ -153,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         m_curVideoInfo.state = VideoInfo.SWIPE_STATE;
         Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.swipeVideo);
         m_vvMain.setVideoURI(video);
-        m_vvMain.start();
+        m_progressBar.setVisibility(View.VISIBLE);
     }
 
     private void playLeftVideo() {
@@ -164,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
         m_curVideoInfo.state = VideoInfo.LEFT_STATE;
         Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.leftLink.video);
         m_vvMain.setVideoURI(video);
-        m_vvMain.start();
+        m_progressBar.setVisibility(View.VISIBLE);
     }
 
     private void playRightVideo() {
@@ -175,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         m_curVideoInfo.state = VideoInfo.RIGHT_STATE;
         Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.rightLink.video);
         m_vvMain.setVideoURI(video);
-        m_vvMain.start();
+        m_progressBar.setVisibility(View.VISIBLE);
     }
 
     private void startRightLink() {
