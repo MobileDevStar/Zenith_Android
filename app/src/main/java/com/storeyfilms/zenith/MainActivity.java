@@ -13,22 +13,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.storeyfilms.zenith.doc.LinkInfo;
 import com.storeyfilms.zenith.doc.VideoInfo;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private VideoView               m_vvSwipe;
-    private VideoView               m_vvPush;
+    private VideoView               m_vvMain;
     private Button                  m_butLogin;
 
     private MediaController         m_mediaController;
@@ -37,10 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<VideoInfo>    m_videoList;
 
-    private boolean                 m_blSplash;
     private int                     m_iVideoIndex;
+
     private VideoInfo               m_curVideoInfo;
-    private boolean                 m_blIsPush;
+    private boolean                 m_blIsFirst;
     private int                     m_iStopPos;
 
     private int                     m_iScreenWidth;
@@ -50,23 +44,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initVideoList();
-        m_blSplash = true;
 
-//        m_vvSwipe = (VideoView)findViewById(R.id.vv_swipe);
-        m_vvPush = (VideoView)findViewById(R.id.vv_push);
+        m_vvMain = (VideoView)findViewById(R.id.vv_main);
         m_butLogin = (Button)findViewById(R.id.but_login);
+        m_blIsFirst = true;
+        m_iVideoIndex = -1;
 
-        m_iVideoIndex = 0;
-        startPushVideo();
+        //Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" +R.raw.first);
+        Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/push.mov");
+        m_vvMain.setVideoURI(video);
+        m_vvMain.start();
 
-        m_vvPush.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        m_vvMain.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                if (m_blIsPush) {
-                    mediaPlayer.start();
+                if (m_blIsFirst == true && m_iVideoIndex == -1) {
+                    startMainVideo();
                 } else {
-                    m_iVideoIndex++;
-                    startPushVideo();
+                    if (m_curVideoInfo.state == VideoInfo.LOOP_STATE) {
+                        mediaPlayer.start();
+                    } else if (m_curVideoInfo.state == VideoInfo.LEFT_STATE) {
+                        startLeftLink();
+                    } else if (m_curVideoInfo.state == VideoInfo.RIGHT_STATE) {
+                        startRightLink();
+                    } else if (m_curVideoInfo.state == VideoInfo.SWIPE_STATE) {
+                        m_iVideoIndex++;
+                        playLoopVideo();
+                    }
                 }
             }
         });
@@ -103,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 */
-        m_vvPush.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        m_vvMain.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
                 //mediaPlayer.setLooping(true);
@@ -120,42 +124,58 @@ public class MainActivity extends AppCompatActivity {
 
         // Add a touch listener to the view
         // The touch listener passes all its events on to the gesture detector
-        m_vvPush.setOnTouchListener(touchListener);
+        m_vvMain.setOnTouchListener(touchListener);
     }
 
-    private void startPushVideo() {
-        if (m_iVideoIndex >= m_videoList.size()) {
+    private void startMainVideo() {
+        m_blIsFirst = false;
+        m_iVideoIndex = 0;
+
+        playLoopVideo();
+    }
+
+    private void playLoopVideo() {
+        if (m_iVideoIndex >= m_videoList.size() || m_iVideoIndex < 0) {
             return;
         }
 
         m_curVideoInfo = m_videoList.get(m_iVideoIndex);
         if (m_curVideoInfo == null) return;
 
-        m_blIsPush = true;
-
-       /// m_vvSwipe.setVisibility(View.INVISIBLE);
-       /// m_vvPush.setVisibility(View.VISIBLE);
-
-        Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/" + m_curVideoInfo.curVideo);
-        //Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.parseInt(m_curVideoInfo.curVideo));
-        m_vvPush.setVideoURI(video);
-        m_vvPush.start();
+        Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.loopVideo);
+        m_vvMain.setVideoURI(video);
+        m_vvMain.start();
     }
 
-    private void startSwipeVideo() {
+    private void playSwipeVideo() {
         if (m_curVideoInfo == null) return;
 
-        m_blIsPush = false;
+        m_curVideoInfo.state = VideoInfo.SWIPE_STATE;
+        Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.swipeVideo);
+        m_vvMain.setVideoURI(video);
+        m_vvMain.start();
+    }
 
-        //m_vvSwipe.setVisibility(View.VISIBLE);
-       // m_vvPush.setVisibility(View.INVISIBLE);
+    private void playLeftVideo() {
+        if (m_curVideoInfo == null) return;
 
-        Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/" + m_curVideoInfo.swipeVideo);
-//        m_vvSwipe.setVideoURI(video);
-//        m_vvSwipe.start();
-        //Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.parseInt(m_curVideoInfo.swipeVideo));
-        m_vvPush.setVideoURI(video);
-        m_vvPush.start();
+        if (m_curVideoInfo.locked == true || m_curVideoInfo.leftLink == null) return;
+
+        m_curVideoInfo.state = VideoInfo.LEFT_STATE;
+        Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.leftLink.video);
+        m_vvMain.setVideoURI(video);
+        m_vvMain.start();
+    }
+
+    private void playRightVideo() {
+        if (m_curVideoInfo == null) return;
+
+        if (m_curVideoInfo.rightLink == null) return;
+
+        m_curVideoInfo.state = VideoInfo.RIGHT_STATE;
+        Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.rightLink.video);
+        m_vvMain.setVideoURI(video);
+        m_vvMain.start();
     }
 
     private void startRightLink() {
@@ -185,87 +205,89 @@ public class MainActivity extends AppCompatActivity {
             intent.setPackage("com.snapchat.android");
             startActivity(Intent.createChooser(intent, "Open Snapchat"));
         }
-
     }
 
     private void initVideoList() {
         m_videoList = new ArrayList<VideoInfo>();
 
+        String subject = "Twitter";
+        boolean locked = false;
+        String loopVideo = "Twitter_prize_LOOP_480_SOUND.mov";
+        String swipeVideo = "Twitter_prize_swipe_to_Snapchat_480_SOUND.mov";
+        int state = VideoInfo.LOOP_STATE;
+
         String rightLinkName = "Indiegogo";
+        String rightVideo = "Twitter_prize_Gaia_Indiegogo_480_SOUND.mov";
         String rightLinkPath = "https://www.indiegogo.com/project/preview/031584c9";
-        LinkInfo rightLink = new LinkInfo(rightLinkName, rightLinkPath);
+        LinkInfo rightLink = new LinkInfo(rightLinkName, rightVideo, rightLinkPath);
 
         String leftLinkName = "Twitter";
+        String leftVideo = "Twitter_prize_push_480_SOUND.mov";
         String leftLinkPath = "@zenithzeromovie";
-        LinkInfo leftLink = new LinkInfo(leftLinkName, leftLinkPath);
+        LinkInfo leftLink = new LinkInfo(leftLinkName, leftVideo, leftLinkPath);
 
-        String curVideo = "push.mov";
-        String swipeVideo = "swipe.mov";
-        String nextVideo = "push.mp4";
-
-//        String curVideo = Integer.toString(R.raw.push);
-//        String swipeVideo = Integer.toString(R.raw.swipe);
-//        String nextVideo = Integer.toString(R.raw.push3);
-        String prevVideo = null;
-
-        VideoInfo videoInfo = new VideoInfo(curVideo, swipeVideo, nextVideo, prevVideo, rightLink, leftLink);
+        VideoInfo videoInfo = new VideoInfo(subject, locked, loopVideo, swipeVideo, rightLink, leftLink, state);
         m_videoList.add(videoInfo);
 
-        curVideo = "push.mp4";
-        swipeVideo = "swipe.mov";
-        nextVideo = "push3.mp4";
-        prevVideo = "push.mov";
+        subject = "Snapchat";
+        locked = false;
+        loopVideo = "Snapchat_prize_loop_480_SOUND.mov";
+        swipeVideo = "Snapchat_prize_swipe_to_LOCK_Z_button_480_SOUND.mov";
+        state = VideoInfo.LOOP_STATE;
 
-//        curVideo = Integer.toString(R.raw.push3);
-//        swipeVideo = Integer.toString(R.raw.swipe);
-//        nextVideo = null;
-//        prevVideo = Integer.toString(R.raw.push);
+        rightLinkName = "Indiegogo";
+        rightVideo = "Snapchat_prize_Gaia_Indiegogo_480_SOUND.mov";
+        rightLinkPath = "https://www.indiegogo.com/project/preview/031584c9";
+        rightLink = new LinkInfo(rightLinkName, rightVideo, rightLinkPath);
 
         leftLinkName = "Snapchat";
+        leftVideo = "Snapchat_prize_push_480_SOUND.mov";
         leftLinkPath = "zenithzeromovie";
-        leftLink = new LinkInfo(leftLinkName, leftLinkPath);
+        leftLink = new LinkInfo(leftLinkName, leftVideo, leftLinkPath);
 
-        videoInfo = new VideoInfo(curVideo, swipeVideo, nextVideo, prevVideo, rightLink, leftLink);
+        videoInfo = new VideoInfo(subject, locked, loopVideo, swipeVideo, rightLink, leftLink, state);
         m_videoList.add(videoInfo);
-/*
-        curVideo = "push3.mp4";
-        swipeVideo = "swipe.mov";
-        nextVideo = null;
-        prevVideo = "push.mp4";
 
-        leftLinkName = "Instagram";
-        leftLinkPath = "zenith0archivealpha";
-        leftLink = new LinkInfo(leftLinkName, leftLinkPath);
 
-        videoInfo = new VideoInfo(curVideo, swipeVideo, nextVideo, prevVideo, rightLink, leftLink);
+        subject = "ZButton";
+        locked = true;
+        loopVideo = "LOCK_Z_button_prize_loop_480_SOUND.mov";
+        swipeVideo = "LOCK_Z_button_prize_swipe_to_LOCK_Instagram_480_SOUND.mov";
+        state = VideoInfo.LOOP_STATE;
+
+        rightLinkName = "Indiegogo";
+        rightVideo = "Snapchat_prize_Gaia_Indiegogo_480_SOUND.mov";
+        rightLinkPath = "https://www.indiegogo.com/project/preview/031584c9";
+        rightLink = new LinkInfo(rightLinkName, rightVideo, rightLinkPath);
+
+        leftLink = null;
+
+        videoInfo = new VideoInfo(subject, locked, loopVideo, swipeVideo, rightLink, leftLink, state);
         m_videoList.add(videoInfo);
-*/
     }
 
     @Override
     public void onResume() {
-
         super.onResume();
 
-        if (m_curVideoInfo == null) return;
-
-        m_vvPush.seekTo(m_iStopPos);
-        m_vvPush.start();
-//        if (m_blIsPush) {
-//            startPushVideo();
-//        } else {
-//            startSwipeVideo();
-//        }
+        if (m_blIsFirst) {
+            m_vvMain.seekTo(m_iStopPos);
+            m_vvMain.start();
+        } else {
+            playLoopVideo();
+        }
     }
 
     @Override
     public void onPause() {
-
         super.onPause();
-        //m_vvPush.stopPlayback();
 
-        m_iStopPos = m_vvPush.getCurrentPosition();
-        m_vvPush.pause();
+        if (m_blIsFirst) {
+            m_iStopPos = m_vvMain.getCurrentPosition();
+            m_vvMain.pause();
+        } else {
+            m_vvMain.stopPlayback();
+        }
     }
 
 
@@ -305,19 +327,43 @@ public class MainActivity extends AppCompatActivity {
             Log.i("TAG_Orientation", Float.toString(e.getOrientation()));
             Log.i("TAG_X", Float.toString(e.getX()));
 
-            if (m_blIsPush) {
-                float orientation = e.getOrientation();
-                if (orientation == 0) {
-                    if (e.getX() < m_iScreenWidth / 2) {
-                        startLeftLink();
-                    } else {
-                        startRightLink();
-                    }
-                } else {
-                    if (e.getX() < m_iScreenHeight / 2) {
-                        startLeftLink();
-                    } else {
-                        startRightLink();
+            if (m_blIsFirst == true && m_iVideoIndex == -1) {
+                startMainVideo();
+            } else {
+                if (m_curVideoInfo != null) {
+                    float orientation = e.getOrientation();
+                    if (m_curVideoInfo.state == VideoInfo.LOOP_STATE) {
+                        if (orientation == 0) {
+                            if (e.getX() < m_iScreenWidth / 2) {
+                                playLeftVideo();
+                            } else {
+                                playRightVideo();
+                            }
+                        } else {
+                            if (e.getX() < m_iScreenHeight / 2) {
+                                playLeftVideo();
+                            } else {
+                                playRightVideo();
+                            }
+                        }
+                    } else if (m_curVideoInfo.state == VideoInfo.SWIPE_STATE) {
+                        m_iVideoIndex++;
+                        if (m_iVideoIndex < m_videoList.size() || m_iVideoIndex >= 0) {
+                            m_curVideoInfo = m_videoList.get(m_iVideoIndex);
+                            if (orientation == 0) {
+                                if (e.getX() < m_iScreenWidth / 2) {
+                                    playLeftVideo();
+                                } else {
+                                    playRightVideo();
+                                }
+                            } else {
+                                if (e.getX() < m_iScreenHeight / 2) {
+                                    playLeftVideo();
+                                } else {
+                                    playRightVideo();
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -326,42 +372,40 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onLongPress(MotionEvent e) {
-            Log.i("TAG", "onLongPress: ");
-        }
-
-        @Override
-        public boolean onDoubleTap(MotionEvent e) {
-            Log.i("TAG", "onDoubleTap: ");
-            return true;
-        }
-//
-//        @Override
-//        public boolean onScroll(MotionEvent e1, MotionEvent e2,
-//                                float distanceX, float distanceY) {
-//            Log.i("TAG", "onScroll: ");
-//            Log.i("TAG", Float.toString(distanceX));
-//            return false;
-//        }
-
-        @Override
         public boolean onFling(MotionEvent event1, MotionEvent event2,
                                float velocityX, float velocityY) {
             Log.i("TAG", "onFling: ");
             Log.i("TAGX", Float.toString(velocityX));
             Log.i("TAGY", Float.toString(velocityY));
 
-            if (m_blIsPush) {
-                float orientation = event1.getOrientation();
-                if (orientation == 0) {
-                    if (event1.getX() < m_iScreenWidth / 2) {
-                        startSwipeVideo();
-                        Log.i("TAG", "000000000000000000000000000");
-                    }
-                } else {
-                    if (event1.getX() < m_iScreenHeight / 2) {
-                        startSwipeVideo();
-                        Log.i("TAG", "ppppppppppppppppppppp");
+            if (m_blIsFirst == true && m_iVideoIndex == -1) {
+                startMainVideo();
+            } else {
+                if (m_curVideoInfo != null) {
+                    if (m_curVideoInfo.state == VideoInfo.LOOP_STATE) {
+                        float orientation = event1.getOrientation();
+                        if (orientation == 0) {
+                            if (event1.getX() < m_iScreenWidth / 2) {
+                                if (velocityX > 0) {
+                                    playSwipeVideo();
+                                } else {
+                                    m_iVideoIndex--;
+                                    playLoopVideo();
+                                }
+                                Log.i("TAG", "000000000000000000000000000");
+                            }
+                        } else {
+                            if (event1.getX() < m_iScreenHeight / 2) {
+                                if (velocityX > 0) {
+                                    playSwipeVideo();
+                                } else {
+                                    m_iVideoIndex--;
+                                    playLoopVideo();
+                                }
+
+                                Log.i("TAG", "ppppppppppppppppppppp");
+                            }
+                        }
                     }
                 }
             }

@@ -8,17 +8,7 @@
     tools:context=".MainActivity">
 
     <VideoView
-        android:id="@+id/vv_swipe"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <VideoView
-        android:id="@+id/vv_push"
+        android:id="@+id/vv_main"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
