@@ -23,7 +23,7 @@ public class SplashActivity extends AppCompatActivity {
         m_videoView = (VideoView)findViewById(R.id.vv_splash);
         m_butLogin = (Button)findViewById(R.id.but_login1);
 
-        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" +R.raw.title_login);
+        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" +R.raw.title_login_480_sound);
         m_videoView.setVideoURI(video);
 
         m_videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {

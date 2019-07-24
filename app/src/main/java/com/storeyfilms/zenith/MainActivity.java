@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         m_blIsFirst = true;
         m_iVideoIndex = -1;
 
-        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" +R.raw.first);
+        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" +R.raw.after_login_video_to_twitter_prize_480_sound);
        // Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/Twitter_prize_LOOP_480_SOUND.mov");
         m_vvMain.setVideoURI(video);
 
@@ -148,7 +148,8 @@ public class MainActivity extends AppCompatActivity {
         if (m_curVideoInfo == null) return;
 
         m_curVideoInfo.state = VideoInfo.LOOP_STATE;
-        Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.loopVideo);
+        //Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.loopVideo);
+        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.parseInt(m_curVideoInfo.loopVideo));
         m_vvMain.setVideoURI(video);
         m_progressBar.setVisibility(View.VISIBLE);
     }
@@ -157,7 +158,8 @@ public class MainActivity extends AppCompatActivity {
         if (m_curVideoInfo == null) return;
 
         m_curVideoInfo.state = VideoInfo.SWIPE_STATE;
-        Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.swipeVideo);
+        //Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.swipeVideo);
+        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.parseInt(m_curVideoInfo.swipeVideo));
         m_vvMain.setVideoURI(video);
         m_progressBar.setVisibility(View.VISIBLE);
     }
@@ -168,7 +170,8 @@ public class MainActivity extends AppCompatActivity {
         if (m_curVideoInfo.locked == true || m_curVideoInfo.leftLink == null) return;
 
         m_curVideoInfo.state = VideoInfo.LEFT_STATE;
-        Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.leftLink.video);
+        //Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.leftLink.video);
+        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.parseInt(m_curVideoInfo.leftLink.video));
         m_vvMain.setVideoURI(video);
         m_progressBar.setVisibility(View.VISIBLE);
     }
@@ -179,7 +182,8 @@ public class MainActivity extends AppCompatActivity {
         if (m_curVideoInfo.rightLink == null) return;
 
         m_curVideoInfo.state = VideoInfo.RIGHT_STATE;
-        Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.rightLink.video);
+        //Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.rightLink.video);
+        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.parseInt(m_curVideoInfo.rightLink.video));
         m_vvMain.setVideoURI(video);
         m_progressBar.setVisibility(View.VISIBLE);
     }
@@ -218,17 +222,17 @@ public class MainActivity extends AppCompatActivity {
 
         String subject = "Twitter";
         boolean locked = false;
-        String loopVideo = "Twitter_prize_LOOP_480_SOUND.mov";
-        String swipeVideo = "Twitter_prize_swipe_to_Snapchat_480_SOUND.mov";
+        String loopVideo = Integer.toString(R.raw.twitter_prize_loop_480_sound);//"Twitter_prize_LOOP_480_SOUND.mov";
+        String swipeVideo = Integer.toString(R.raw.twitter_prize_swipe_to_snapchat_480_sound);//"Twitter_prize_swipe_to_Snapchat_480_SOUND.mov";
         int state = VideoInfo.LOOP_STATE;
 
         String rightLinkName = "Indiegogo";
-        String rightVideo = "Twitter_prize_Gaia_Indiegogo_480_SOUND.mov";
+        String rightVideo = Integer.toString(R.raw.twitter_prize_gaia_indiegogo_480_sound);//"Twitter_prize_Gaia_Indiegogo_480_SOUND.mov";
         String rightLinkPath = "https://www.indiegogo.com/project/preview/031584c9";
         LinkInfo rightLink = new LinkInfo(rightLinkName, rightVideo, rightLinkPath);
 
         String leftLinkName = "Twitter";
-        String leftVideo = "Twitter_prize_push_480_SOUND.mov";
+        String leftVideo = Integer.toString(R.raw.twitter_prize_push_480_sound);//"Twitter_prize_push_480_SOUND.mov";
         String leftLinkPath = "@zenithzeromovie";
         LinkInfo leftLink = new LinkInfo(leftLinkName, leftVideo, leftLinkPath);
 
@@ -237,17 +241,17 @@ public class MainActivity extends AppCompatActivity {
 
         subject = "Snapchat";
         locked = false;
-        loopVideo = "Snapchat_prize_loop_480_SOUND.mov";
-        swipeVideo = "Snapchat_prize_swipe_to_LOCK_Z_button_480_SOUND.mov";
+        loopVideo = Integer.toString(R.raw.snapchat_prize_loop_480_sound);//"Snapchat_prize_loop_480_SOUND.mov";
+        swipeVideo = Integer.toString(R.raw.snapchat_prize_swipe_to_lock_z_button_480_sound);//"Snapchat_prize_swipe_to_LOCK_Z_button_480_SOUND.mov";
         state = VideoInfo.LOOP_STATE;
 
         rightLinkName = "Indiegogo";
-        rightVideo = "Snapchat_prize_Gaia_Indiegogo_480_SOUND.mov";
+        rightVideo = Integer.toString(R.raw.snapchat_prize_gaia_indiegogo_480_sound);//"Snapchat_prize_Gaia_Indiegogo_480_SOUND.mov";
         rightLinkPath = "https://www.indiegogo.com/project/preview/031584c9";
         rightLink = new LinkInfo(rightLinkName, rightVideo, rightLinkPath);
 
         leftLinkName = "Snapchat";
-        leftVideo = "Snapchat_prize_push_480_SOUND.mov";
+        leftVideo = Integer.toString(R.raw.snapchat_prize_push_480_sound);//"Snapchat_prize_push_480_SOUND.mov";
         leftLinkPath = "zenithzeromovie";
         leftLink = new LinkInfo(leftLinkName, leftVideo, leftLinkPath);
 
@@ -257,12 +261,12 @@ public class MainActivity extends AppCompatActivity {
 
         subject = "ZButton";
         locked = true;
-        loopVideo = "LOCK_Z_button_prize_loop_480_SOUND.mov";
-        swipeVideo = "LOCK_Z_button_prize_swipe_to_LOCK_Instagram_480_SOUND.mov";
+        loopVideo = Integer.toString(R.raw.lock_z_button_prize_loop_480_sound);//"LOCK_Z_button_prize_loop_480_SOUND.mov";
+        swipeVideo = Integer.toString(R.raw.lock_z_button_prize_swipe_to_lock_instagram_480_sound);//"LOCK_Z_button_prize_swipe_to_LOCK_Instagram_480_SOUND.mov";
         state = VideoInfo.LOOP_STATE;
 
         rightLinkName = "Indiegogo";
-        rightVideo = "Snapchat_prize_Gaia_Indiegogo_480_SOUND.mov";
+        rightVideo = Integer.toString(R.raw.lock_z_button_prize_gaia_indiegogo_480);//"Snapchat_prize_Gaia_Indiegogo_480_SOUND.mov";
         rightLinkPath = "https://www.indiegogo.com/project/preview/031584c9";
         rightLink = new LinkInfo(rightLinkName, rightVideo, rightLinkPath);
 
