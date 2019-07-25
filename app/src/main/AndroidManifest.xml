@@ -16,18 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MediaActivity"
-            android:configChanges="orientation|screenLayout|screenSize|locale|keyboard|keyboardHidden|uiMode"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-
-        </activity>
-        <activity
-            android:name=".VideoActivity"
-            android:configChanges="orientation|screenLayout|screenSize|locale|keyboard|keyboardHidden|uiMode"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        </activity>
         <activity
             android:name=".SplashActivity"
             android:configChanges="orientation|screenLayout|screenSize|locale|keyboard|keyboardHidden|uiMode"
