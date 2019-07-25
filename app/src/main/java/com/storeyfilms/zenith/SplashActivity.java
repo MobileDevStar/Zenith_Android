@@ -15,14 +15,17 @@ public class SplashActivity extends AppCompatActivity {
 
     private VideoView   m_videoView;
     private Button      m_butLogin;
+    private View        m_vLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        //getWindow().getWindowManager().
 
         m_videoView = (VideoView)findViewById(R.id.vv_splash);
-        m_butLogin = (Button)findViewById(R.id.but_login1);
+        m_vLogin = (View)findViewById(R.id.v_login);
+       // m_butLogin = (Button)findViewById(R.id.but_splash_login);
 
        // AssetFileDescriptor afd = getAssets().openFd("xyz/age.mp4");
         //.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
@@ -44,17 +47,17 @@ public class SplashActivity extends AppCompatActivity {
         m_videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                m_butLogin.setVisibility(View.VISIBLE);
+                m_vLogin.setVisibility(View.VISIBLE);
             }
         });
 
-        m_butLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+//        m_butLogin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
     }
 }

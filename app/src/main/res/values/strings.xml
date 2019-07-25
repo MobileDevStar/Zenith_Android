@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Zenith</string>
+
+    <string name="empty_image">Empty_Image</string>
+    <string name="but_login">Log In</string>
 </resources>
+

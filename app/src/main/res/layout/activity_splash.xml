@@ -16,20 +16,120 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/but_login1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="76dp"
-        android:visibility="invisible"
-        android:text="Login"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/v_login"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="80"
+        android:background="@color/splash_background"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <ImageView
+            android:id="@+id/iv_email"
+            android:layout_width="@dimen/iv_email_width"
+            android:layout_height="@dimen/iv_email_height"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:contentDescription="@string/empty_image"
+            app:layout_constraintBottom_toTopOf="@+id/et_email"
+            app:layout_constraintEnd_toEndOf="@+id/v_login"
+            app:layout_constraintStart_toStartOf="@+id/v_login"
+            app:srcCompat="@drawable/email" />
+
+        <ImageView
+            android:id="@+id/iv_password"
+            android:layout_width="@dimen/iv_password_width"
+            android:layout_height="@dimen/iv_password_height"
+            android:layout_marginStart="@dimen/default_margin"
+            android:contentDescription="@string/empty_image"
+            app:layout_constraintBottom_toTopOf="@+id/et_password"
+            app:layout_constraintEnd_toEndOf="@+id/v_login"
+            app:layout_constraintStart_toStartOf="@+id/v_login"
+            app:srcCompat="@drawable/password" />
+
+        <ImageView
+            android:id="@+id/iv_noaccount"
+            android:layout_width="@dimen/iv_noaccount_width"
+            android:layout_height="@dimen/iv_noaccount_height"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:contentDescription="@string/empty_image"
+            app:layout_constraintBottom_toTopOf="@+id/iv_register"
+            app:layout_constraintEnd_toEndOf="@+id/v_login"
+            app:layout_constraintStart_toStartOf="@+id/v_login"
+            app:srcCompat="@drawable/noaccount" />
+
+        <ImageView
+            android:id="@+id/iv_register"
+            android:layout_width="@dimen/iv_register_width"
+            android:layout_height="@dimen/iv_register_height"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_bottom_margin"
+            android:contentDescription="@string/empty_image"
+            app:layout_constraintBottom_toBottomOf="@+id/v_login"
+            app:layout_constraintEnd_toEndOf="@+id/v_login"
+            app:layout_constraintStart_toStartOf="@+id/v_login"
+            app:srcCompat="@drawable/register" />
+
+        <ImageView
+            android:id="@+id/iv_forgot_password"
+            android:layout_width="@dimen/iv_forgotpw_width"
+            android:layout_height="@dimen/iv_forgotpw_height"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:contentDescription="@string/empty_image"
+            app:layout_constraintEnd_toEndOf="@+id/v_login"
+            app:layout_constraintStart_toStartOf="@+id/v_login"
+            app:layout_constraintTop_toBottomOf="@+id/but_splash_login"
+            app:srcCompat="@drawable/forgot_password" />
+
+        <EditText
+            android:id="@+id/et_email"
+            android:layout_width="@dimen/et_email_width"
+            android:layout_height="@dimen/et_email_height"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:background="@color/login_edit"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            app:layout_constraintBottom_toTopOf="@+id/iv_password"
+            app:layout_constraintEnd_toEndOf="@+id/v_login"
+            app:layout_constraintStart_toStartOf="@+id/v_login" />
+
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="@dimen/et_email_width"
+            android:layout_height="@dimen/et_email_height"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:background="@color/login_edit"
+            android:ems="10"
+            android:inputType="textPassword"
+            app:layout_constraintBottom_toBottomOf="@+id/v_login"
+            app:layout_constraintEnd_toEndOf="@+id/v_login"
+            app:layout_constraintStart_toStartOf="@+id/v_login"
+            app:layout_constraintTop_toTopOf="@+id/v_login" />
+
+        <ImageView
+            android:id="@+id/but_splash_login"
+            android:layout_width="@dimen/but_login_width"
+            android:layout_height="@dimen/but_login_height"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="@dimen/login_top_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:contentDescription="@string/but_login"
+            app:layout_constraintEnd_toEndOf="@+id/v_login"
+            app:layout_constraintStart_toStartOf="@+id/v_login"
+            app:layout_constraintTop_toBottomOf="@+id/et_password"
+            app:srcCompat="@drawable/login"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
