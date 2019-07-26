@@ -3,5 +3,10 @@
 
     <string name="empty_image">Empty_Image</string>
     <string name="but_login">Log In</string>
+    <string name="empty_email">Please input email</string>
+    <string name="empty_password">Please input password</string>
+    <string name="auth_failed">Authentication failed</string>
+    <string name="read_failed">Failed to read value</string>
+    <string name="not_signup">Please sign up</string>
 </resources>
 

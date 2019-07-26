@@ -2,7 +2,9 @@ package com.storeyfilms.zenith;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -12,6 +14,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.VideoView;
@@ -19,12 +22,17 @@ import android.widget.VideoView;
 import com.storeyfilms.zenith.doc.LinkInfo;
 import com.storeyfilms.zenith.doc.VideoInfo;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private VideoView               m_vvMain;
-    private Button                  m_butLogin;
     private ProgressBar             m_progressBar;
 
     private MediaController         m_mediaController;
@@ -38,23 +46,31 @@ public class MainActivity extends AppCompatActivity {
     private VideoInfo               m_curVideoInfo;
     private boolean                 m_blIsFirst;
     private int                     m_iStopPos;
+    private String                  m_strPackageName;
 
     private int                     m_iScreenWidth;
     private int                     m_iScreenHeight;
+
+    private String                  m_iContribute;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Bundle extras = getIntent().getExtras();
+        m_iContribute = extras.getString("contribute");
+
         initVideoList();
 
         m_vvMain = (VideoView)findViewById(R.id.vv_main);
-        m_butLogin = (Button)findViewById(R.id.but_login);
         m_progressBar = (ProgressBar) findViewById(R.id.pb_spinner);
         m_blIsFirst = true;
         m_iVideoIndex = -1;
+        m_strPackageName = getPackageName();
 
-        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" +R.raw.after_login_video_to_twitter_prize_480_sound);
-       // Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/Twitter_prize_LOOP_480_SOUND.mov");
+        int res_id = getResources().getIdentifier("after_login_video_to_twitter_prize_480_sound",
+                "raw", m_strPackageName);
+        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.toString(res_id));
         m_vvMain.setVideoURI(video);
 
         m_progressBar.setVisibility(View.VISIBLE);
@@ -73,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
                         startRightLink();
                     } else if (m_curVideoInfo.state == VideoInfo.SWIPE_STATE) {
                         m_iVideoIndex++;
+                        if (m_iVideoIndex >= m_videoList.size()) {
+                            m_iVideoIndex = 0;
+                        }
                         playLoopVideo();
                     }
                 }
@@ -148,8 +167,11 @@ public class MainActivity extends AppCompatActivity {
         if (m_curVideoInfo == null) return;
 
         m_curVideoInfo.state = VideoInfo.LOOP_STATE;
-        //Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.loopVideo);
-        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.parseInt(m_curVideoInfo.loopVideo));
+
+        int res_id = getResources().getIdentifier(m_curVideoInfo.loopVideo,
+                "raw", m_strPackageName);
+        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.toString(res_id));
+
         m_vvMain.setVideoURI(video);
         m_progressBar.setVisibility(View.VISIBLE);
     }
@@ -158,8 +180,11 @@ public class MainActivity extends AppCompatActivity {
         if (m_curVideoInfo == null) return;
 
         m_curVideoInfo.state = VideoInfo.SWIPE_STATE;
-        //Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.swipeVideo);
-        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.parseInt(m_curVideoInfo.swipeVideo));
+
+        int res_id = getResources().getIdentifier(m_curVideoInfo.swipeVideo,
+                "raw", m_strPackageName);
+        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.toString(res_id));
+
         m_vvMain.setVideoURI(video);
         m_progressBar.setVisibility(View.VISIBLE);
     }
@@ -170,8 +195,11 @@ public class MainActivity extends AppCompatActivity {
         if (m_curVideoInfo.locked == true || m_curVideoInfo.leftLink == null) return;
 
         m_curVideoInfo.state = VideoInfo.LEFT_STATE;
-        //Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.leftLink.video);
-        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.parseInt(m_curVideoInfo.leftLink.video));
+
+        int res_id = getResources().getIdentifier(m_curVideoInfo.leftLink.video,
+                "raw", m_strPackageName);
+        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.toString(res_id));
+
         m_vvMain.setVideoURI(video);
         m_progressBar.setVisibility(View.VISIBLE);
     }
@@ -182,8 +210,11 @@ public class MainActivity extends AppCompatActivity {
         if (m_curVideoInfo.rightLink == null) return;
 
         m_curVideoInfo.state = VideoInfo.RIGHT_STATE;
-        //Uri video = Uri.parse("https://zenithzero.s3.us-east-2.amazonaws.com/480/" + m_curVideoInfo.rightLink.video);
-        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.parseInt(m_curVideoInfo.rightLink.video));
+
+        int res_id = getResources().getIdentifier(m_curVideoInfo.rightLink.video,
+                "raw", m_strPackageName);
+        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.toString(res_id));
+
         m_vvMain.setVideoURI(video);
         m_progressBar.setVisibility(View.VISIBLE);
     }
@@ -214,11 +245,32 @@ public class MainActivity extends AppCompatActivity {
             intent.setType("*/*");
             intent.setPackage("com.snapchat.android");
             startActivity(Intent.createChooser(intent, "Open Snapchat"));
+        } else if (m_curVideoInfo.leftLink.name.equalsIgnoreCase("instagram")) {
+            Uri uri = Uri.parse("http://instagram.com/_u/" + m_curVideoInfo.leftLink.link);
+            Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
+
+            likeIng.setPackage("com.instagram.android");
+
+            try {
+                startActivity(likeIng);
+            } catch (ActivityNotFoundException e) {
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://instagram.com/" + m_curVideoInfo.leftLink.link)));
+            }
+        } else if (m_curVideoInfo.leftLink.name.equalsIgnoreCase("z_button") || m_curVideoInfo.leftLink.name.equalsIgnoreCase("schematics") || m_curVideoInfo.leftLink.name.equalsIgnoreCase("story")) {
+            String url = m_curVideoInfo.leftLink.link;
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
         }
     }
 
     private void initVideoList() {
         m_videoList = new ArrayList<VideoInfo>();
+
+        if (!loadVideoData(m_iContribute))  return;
+
+/*
 
         String subject = "Twitter";
         boolean locked = false;
@@ -273,7 +325,67 @@ public class MainActivity extends AppCompatActivity {
         leftLink = null;
 
         videoInfo = new VideoInfo(subject, locked, loopVideo, swipeVideo, rightLink, leftLink, state);
-        m_videoList.add(videoInfo);
+        m_videoList.add(videoInfo);*/
+    }
+
+    private String loadJSONFromAsset() {
+        String json = null;
+        try {
+            InputStream is = getAssets().open("videos.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+
+    private boolean loadVideoData(String contribution) {
+        try {
+            JSONObject obj = new JSONObject(loadJSONFromAsset());
+
+            JSONObject videoJson = obj.getJSONObject("videos");
+            JSONArray videoAry = videoJson.getJSONArray(contribution);
+
+            int len = videoAry.length();
+            for (int i = 0; i< len; i++) {
+                JSONObject videoItem = videoAry.getJSONObject(i);
+
+                String subject = videoItem.getString("subject");
+                boolean locked = videoItem.getBoolean("locked");
+                String loopVideo = videoItem.getString("loopVideo"); //Integer.toString(R.raw.twitter_prize_loop_480_sound);//"Twitter_prize_LOOP_480_SOUND.mov";
+                String swipeVideo = videoItem.getString("swipeVideo"); //Integer.toString(R.raw.twitter_prize_swipe_to_snapchat_480_sound);//"Twitter_prize_swipe_to_Snapchat_480_SOUND.mov";
+                int state = VideoInfo.LOOP_STATE;
+
+                LinkInfo leftLink = null;
+                if (!locked) {
+                    JSONObject leftItem = videoItem.getJSONObject("leftLink");
+
+                    String leftLinkName = leftItem.getString("name");
+                    String leftVideo = leftItem.getString("video");
+                    String leftLinkPath = leftItem.getString("link");
+                    leftLink = new LinkInfo(leftLinkName, leftVideo, leftLinkPath);
+                }
+
+                JSONObject rightItem = videoItem.getJSONObject("rightLink");
+
+                String rightLinkName = rightItem.getString("name");
+                String rightVideo = rightItem.getString("video");
+                String rightLinkPath = rightItem.getString("link");
+                LinkInfo rightLink = new LinkInfo(rightLinkName, rightVideo, rightLinkPath);
+
+                VideoInfo videoInfo = new VideoInfo(subject, locked, loopVideo, swipeVideo, rightLink, leftLink, state);
+                m_videoList.add(videoInfo);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -400,6 +512,9 @@ public class MainActivity extends AppCompatActivity {
                                     playSwipeVideo();
                                 } else {
                                     m_iVideoIndex--;
+                                    if (m_iVideoIndex < 0) {
+                                        m_iVideoIndex = m_videoList.size() - 1;
+                                    }
                                     playLoopVideo();
                                 }
                                 Log.i("TAG", "000000000000000000000000000");
@@ -410,6 +525,9 @@ public class MainActivity extends AppCompatActivity {
                                     playSwipeVideo();
                                 } else {
                                     m_iVideoIndex--;
+                                    if (m_iVideoIndex < 0) {
+                                        m_iVideoIndex = m_videoList.size() - 1;
+                                    }
                                     playLoopVideo();
                                 }
 
