@@ -179,7 +179,7 @@ public class SplashActivity extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithEmail:success");
                                 FirebaseUser user = auth.getCurrentUser();
-                                firebaseLoginSuccess(user);
+                                firebaseLoginSuccess(email, password, user);
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -249,9 +249,16 @@ public class SplashActivity extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    private void firebaseLoginSuccess(FirebaseUser user) {
+    private void firebaseLoginSuccess(String email, String password, FirebaseUser user) {
         String userID = user.getUid();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(USERID_KEY, userID);
+        editor.putString(EMAIL_KEY, email);
+        editor.putString(PASSWORD_KEY, password);
+        editor.commit();
+
         String contribute = sharedPreferences.getString(CONTRIBUTE_KEY, "1");
 
         updateUI(contribute);
@@ -319,12 +326,12 @@ public class SplashActivity extends AppCompatActivity {
         editor.putString(PASSWORD_KEY, password);
         editor.putString(CONTRIBUTE_KEY, contribute);
         editor.commit();
-
+/*
         User userInfo = new User("zenith", email, contribute, "");
 
         DatabaseReference   database = FirebaseDatabase.getInstance().getReference();
         database.child("users").child(userID).setValue(userInfo);
-
+*/
         updateUI(contribute);
     }
 
