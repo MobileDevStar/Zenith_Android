@@ -1,18 +1,23 @@
 package com.storeyfilms.zenith;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -54,6 +59,7 @@ public class SplashActivity extends AppCompatActivity {
     private ImageView           m_ivButLogin;
     private ImageView           m_ivButSignup;
     private ImageView           m_ivRegister;
+    private ImageView           m_ivForgotPassword;
 
     private EditText            m_etLoginEmail;
     private EditText            m_etLoginPassword;
@@ -86,6 +92,7 @@ public class SplashActivity extends AppCompatActivity {
         m_ivButLogin = (ImageView) findViewById(R.id.iv_but_login);
         m_ivButSignup = (ImageView) findViewById(R.id.iv_but_signup);
         m_ivRegister = (ImageView) findViewById(R.id.iv_register);
+        m_ivForgotPassword = (ImageView) findViewById(R.id.iv_forgot_password);
 
         m_vWaiting = (View) findViewById(R.id.v_waiting);
 
@@ -136,6 +143,13 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 return true;
+            }
+        });
+
+        m_ivForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                forgotPassword();
             }
         });
     }
@@ -244,15 +258,25 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void signUp() {
-        final String email = m_etSignupEmail.getText().toString();
+        final String email = m_etSignupEmail.getText().toString().trim();
         final String password = m_etSignupPassword.getText().toString();
 
         if (email.isEmpty()) {
             Toast.makeText(this, R.string.empty_email, Toast.LENGTH_LONG).show();
             return;
         }
+        if (!isValidEmail(email)) {
+            Toast.makeText(this, R.string.invalide_email, Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if (password.isEmpty()) {
             Toast.makeText(this, R.string.empty_password, Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (password.length() < 6) {
+            Toast.makeText(this, R.string.password_len, Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -281,6 +305,10 @@ public class SplashActivity extends AppCompatActivity {
                 });
     }
 
+    private boolean isValidEmail(String email) {
+        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
     private void signupSuccess(String email, String password, FirebaseUser user) {
         String userID = user.getUid();
         String contribute = "1";
@@ -305,6 +333,52 @@ public class SplashActivity extends AppCompatActivity {
         intent.putExtra("contribute", contribute);
         startActivity(intent);
         finish();
+    }
+
+    private void forgotPassword() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Forgot Password");
+
+        String prevEmail = m_etLoginEmail.getText().toString();
+
+// Set up the input
+        final EditText input = new EditText(this);
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        builder.setView(input);
+        input.setText(prevEmail);
+
+// Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String email = input.getText().toString();
+                if (email.isEmpty()) {
+                    Toast.makeText(SplashActivity.this, R.string.empty_email, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(SplashActivity.this, R.string.email_sent, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(SplashActivity.this, R.string.email_failed, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     @Override

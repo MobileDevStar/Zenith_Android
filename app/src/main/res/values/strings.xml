@@ -4,9 +4,14 @@
     <string name="empty_image">Empty_Image</string>
     <string name="but_login">Log In</string>
     <string name="empty_email">Please input email</string>
+    <string name="invalide_email">Invalide email</string>
     <string name="empty_password">Please input password</string>
+    <string name="password_len">Password length should be at least 6</string>
     <string name="auth_failed">Authentication failed</string>
     <string name="read_failed">Failed to read value</string>
     <string name="not_signup">Please sign up</string>
+    <string name="email_sent">Reset password email sent</string>
+    <string name="email_failed">Reset password email failed</string>
 </resources>
+
 
