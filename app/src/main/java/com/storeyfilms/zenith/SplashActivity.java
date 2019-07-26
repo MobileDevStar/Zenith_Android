@@ -38,6 +38,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.storeyfilms.zenith.async.HttpAsyncTask;
 import com.storeyfilms.zenith.doc.User;
 
 import java.io.IOException;
@@ -326,6 +327,8 @@ public class SplashActivity extends AppCompatActivity {
         editor.putString(PASSWORD_KEY, password);
         editor.putString(CONTRIBUTE_KEY, contribute);
         editor.commit();
+
+        new HttpAsyncTask(getApplicationContext()).execute(email);
 /*
         User userInfo = new User("zenith", email, contribute, "");
 
