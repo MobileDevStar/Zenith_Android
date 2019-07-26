@@ -14,10 +14,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -33,7 +35,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.storeyfilms.zenith.doc.User;
 
+import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -52,6 +59,8 @@ public class SplashActivity extends AppCompatActivity {
     private EditText            m_etLoginPassword;
     private EditText            m_etSignupEmail;
     private EditText            m_etSignupPassword;
+
+    private View                m_vWaiting;
 
     private View                m_vLogin;
     private View                m_vSignup;
@@ -77,6 +86,8 @@ public class SplashActivity extends AppCompatActivity {
         m_ivButLogin = (ImageView) findViewById(R.id.iv_but_login);
         m_ivButSignup = (ImageView) findViewById(R.id.iv_but_signup);
         m_ivRegister = (ImageView) findViewById(R.id.iv_register);
+
+        m_vWaiting = (View) findViewById(R.id.v_waiting);
 
         int res_id = getResources().getIdentifier("title_login_480_sound",
                 "raw", getPackageName());
@@ -120,6 +131,13 @@ public class SplashActivity extends AppCompatActivity {
                 m_vSignup.setVisibility(View.VISIBLE);
             }
         });
+
+        m_vWaiting.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return true;
+            }
+        });
     }
 
     private void logIn() {
@@ -136,11 +154,13 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         if (checkNetwork()) {
+            m_vWaiting.setVisibility(View.VISIBLE);
             final FirebaseAuth auth =  FirebaseAuth.getInstance();
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithEmail:success");
@@ -152,7 +172,7 @@ public class SplashActivity extends AppCompatActivity {
                                 Toast.makeText(SplashActivity.this, R.string.auth_failed,
                                         Toast.LENGTH_SHORT).show();
                             }
-                            // ...
+                            m_vWaiting.setVisibility(View.GONE);
                         }
                     });
         } else {
@@ -176,14 +196,43 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private boolean checkNetwork() {
+       /*Socket socket;
+        final String host = "www.google.com";
+        final int port = 80;
+        final int timeout = 30000;   // 30 seconds
+
         try {
-            InetAddress ipAddr = InetAddress.getByName("google.com");
+            socket = new Socket();
+            socket.connect(new InetSocketAddress(host, port), timeout);
+        }
+        catch (UnknownHostException uhe) {
+            Log.e("GoogleSock", "I couldn't resolve the host you've provided!");
+            return false;
+        }
+        catch (SocketTimeoutException ste) {
+            Log.e("GoogleSock", "After a reasonable amount of time, I'm not able to connect, Google is probably down!");
+            return false;
+        }
+        catch (IOException ioe) {
+            Log.e("GoogleSock", "Hmmm... Sudden disconnection, probably you should start again!");
+            return false;
+        }
+
+        return true;*/
+       /* try {
+            boolean reachable = InetAddress.getByName("www.google.com").isReachable(100000);
+            return reachable;
+            //InetAddress ipAddr = InetAddress.getByName("www.google.com");
             //You can replace it with your name
-            return !ipAddr.equals("");
+            //return !ipAddr.equals("");
 
         } catch (Exception e) {
             return false;
-        }
+        }*/
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     private void firebaseLoginSuccess(FirebaseUser user) {
@@ -207,6 +256,7 @@ public class SplashActivity extends AppCompatActivity {
             return;
         }
 
+        m_vWaiting.setVisibility(View.VISIBLE);
         final FirebaseAuth auth =  FirebaseAuth.getInstance();
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -225,7 +275,7 @@ public class SplashActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             //updateUI(null);
                         }
-
+                        m_vWaiting.setVisibility(View.GONE);
                         // ...
                     }
                 });

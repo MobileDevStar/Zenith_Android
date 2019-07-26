@@ -10,13 +10,13 @@
                     "swipeVideo": "twitter_prize_swipe_to_snapchat_480_sound",
                     "leftLink": {
                         "name": "Twitter",
-                        "link": "@zenithzeromovie",
+                        "link": "zenithzeromovie",
                         "video": "twitter_prize_push_480_sound"
                     },
                     "rightLink": {
                         "name": "Indiegogo",
                         "link": "https://www.indiegogo.com/project/preview/031584c9",
-                        "video": "twitter_prize_gaia_indiegogo_480_soun"
+                        "video": "twitter_prize_gaia_indiegogo_480_sound"
                     }
                 },
                 {
@@ -102,7 +102,7 @@
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "twitter_prize_gaia_indiegogo_480_soun"
+                    "video": "twitter_prize_gaia_indiegogo_480_sound"
                 }
             },
             {
@@ -191,7 +191,7 @@
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "twitter_prize_gaia_indiegogo_480_soun"
+                    "video": "twitter_prize_gaia_indiegogo_480_sound"
                 }
             },
             {
@@ -283,7 +283,7 @@
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "twitter_prize_gaia_indiegogo_480_soun"
+                    "video": "twitter_prize_gaia_indiegogo_480_sound"
                 }
             },
             {
@@ -378,7 +378,7 @@
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "twitter_prize_gaia_indiegogo_480_soun"
+                    "video": "twitter_prize_gaia_indiegogo_480_sound"
                 }
             },
             {

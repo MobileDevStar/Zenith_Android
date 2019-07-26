@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
         if (m_curVideoInfo.leftLink == null) return;
 
         if (m_curVideoInfo.leftLink.name.equalsIgnoreCase("twitter")) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/#!/" + m_curVideoInfo.leftLink.link)));
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/" + m_curVideoInfo.leftLink.link)));
 //            try {
 //                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name=" + m_curVideoInfo.leftLink.link)));
 //            }catch (Exception e) {
@@ -268,7 +268,8 @@ public class MainActivity extends AppCompatActivity {
     private void initVideoList() {
         m_videoList = new ArrayList<VideoInfo>();
 
-        if (!loadVideoData(m_iContribute))  return;
+        //if (!loadVideoData(m_iContribute))  return;
+        if (!loadVideoData("50"))  return;
 
 /*
 
