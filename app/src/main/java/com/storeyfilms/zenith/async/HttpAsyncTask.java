@@ -104,6 +104,12 @@ public class HttpAsyncTask extends AsyncTask<String, Void, Response> {
                     } else {
                         maxContribute = 50;
                     }
+
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(context.CONTRIBUTE_KEY, Integer.toString(maxContribute));
+                    editor.commit();
+
                     updateUI(Integer.toString(maxContribute));
                 } else {
                     Toast.makeText(context, "Response Error", Toast.LENGTH_SHORT).show();
