@@ -33,6 +33,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -165,7 +166,7 @@ public class SplashActivity extends AppCompatActivity {
         String password = sharedPreferences.getString(PASSWORD_KEY, "");
 
         if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, R.string.not_signup, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, R.string.not_signup, Toast.LENGTH_SHORT).show();
             m_vLogin.setVisibility(View.VISIBLE);
         } else {
             ///////////////Integrate with Indiegogo///////////////
@@ -256,11 +257,12 @@ public class SplashActivity extends AppCompatActivity {
 
     private void firebaseLoginSuccess(String email, String password, FirebaseUser user) {
         String userID = user.getUid();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String username = sharedPreferences.getString(USERNAME_KEY, "");
+        String username = user.getDisplayName();
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(USERID_KEY, userID);
+        editor.putString(USERNAME_KEY, username);
         editor.putString(EMAIL_KEY, email);
         editor.putString(PASSWORD_KEY, password);
         editor.commit();
@@ -308,18 +310,30 @@ public class SplashActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = auth.getCurrentUser();
+                            final FirebaseUser user = auth.getCurrentUser();
 
-                            signupSuccess(username, email, password, user);
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(username).build();
+
+                            user.updateProfile(profileUpdates)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "User profile updated.");
+                                                signupSuccess(username, email, password, user);
+                                                showWaiting(false);
+                                            }
+                                        }
+                                    });
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(SplashActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
+                            showWaiting(false);
                             //updateUI(null);
                         }
-                        showWaiting(false);
-                        // ...
                     }
                 });
     }
