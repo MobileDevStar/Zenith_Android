@@ -2,11 +2,17 @@ package com.storeyfilms.zenith.async;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.storeyfilms.zenith.MainActivity;
+import com.storeyfilms.zenith.SplashActivity;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,27 +28,30 @@ import okhttp3.Response;
 public class HttpAsyncTask extends AsyncTask<String, Void, Response> {
     private static final String TAG = "HttpAsyncTask";
 
-    private Context context;
-
-    public HttpAsyncTask(Context context) {
+    private SplashActivity     context;
+    private String             m_curUser;
+    public HttpAsyncTask(SplashActivity context) {
         this.context = context;
     }
 
     @Override
     protected void onPreExecute() {
         Log.e(TAG, "..................Send Http Start...................");
+        context.showWaiting(true);
     }
 
     @Override
     protected Response doInBackground(String... params) {
         Log.e(TAG, "..................Sending Http...................");
 
-        String email = params[0];
+        String username = params[0];
+        String email = params[1];
+        m_curUser = username;
         String api_token = "6293ec4d339638fcf3400178cb640c0c3de82c25ec8fbe3dfadb300c1c044b89";
 
         OkHttpClient client = new OkHttpClient();
 
-        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.indiegogo.com/2/accounts/031584c9/contributions.json").newBuilder();
+        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.indiegogo.com/2/campaigns/2526147/contributions.json").newBuilder();
         urlBuilder.addQueryParameter("api_token", api_token);
         String url = urlBuilder.build().toString();
 
@@ -70,7 +79,32 @@ public class HttpAsyncTask extends AsyncTask<String, Void, Response> {
                 Log.e(TAG, responseData);
                 JSONObject jsonObj = new JSONObject(responseData);
                 if (jsonObj != null) {
+                    JSONArray contAry = jsonObj.getJSONArray("response");
 
+                    int maxContribute = 1;
+                    int len = contAry.length();
+                    for (int i = 0; i< len; i++) {
+                        JSONObject contObj = contAry.getJSONObject(i);
+                        String user = contObj.getString("by");
+                        if (!user.equalsIgnoreCase(m_curUser)) continue;
+
+                        int amount = contObj.getInt("amount");
+                        if (maxContribute < amount) {
+                            maxContribute = amount;
+                        }
+                    }
+                    if (maxContribute < 5) {
+                        maxContribute = 1;
+                    } else if (maxContribute < 10) {
+                        maxContribute = 5;
+                    } else if (maxContribute < 20) {
+                        maxContribute = 10;
+                    } else if (maxContribute < 50) {
+                        maxContribute = 20;
+                    } else {
+                        maxContribute = 50;
+                    }
+                    updateUI(Integer.toString(maxContribute));
                 } else {
                     Toast.makeText(context, "Response Error", Toast.LENGTH_SHORT).show();
                 }
@@ -83,7 +117,19 @@ public class HttpAsyncTask extends AsyncTask<String, Void, Response> {
             }
         } else {
             Log.e(TAG, "..................Response error...................");
-            Toast.makeText(context, "Response error", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "Response error", Toast.LENGTH_SHORT).show();
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            String contribute = sharedPreferences.getString(SplashActivity.CONTRIBUTE_KEY, "");
+            updateUI(contribute);
         }
+        context.showWaiting(false);
+    }
+
+
+    private void updateUI(String contribute) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("contribute", contribute);
+        context.startActivity(intent);
+        context.finish();
     }
 }

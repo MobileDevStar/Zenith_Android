@@ -52,9 +52,10 @@ public class SplashActivity extends AppCompatActivity {
 
     private final String        TAG = "Authentication";
     private final String        USERID_KEY = "userid";
+    private final String        USERNAME_KEY = "username";
     private final String        EMAIL_KEY = "email";
     private final String        PASSWORD_KEY = "password";
-    private final String        CONTRIBUTE_KEY = "contribute";
+    public static final String  CONTRIBUTE_KEY = "contribute";
 
     private VideoView           m_videoView;
     private ImageView           m_ivButLogin;
@@ -64,6 +65,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private EditText            m_etLoginEmail;
     private EditText            m_etLoginPassword;
+    private EditText            m_etSignupUsername;
     private EditText            m_etSignupEmail;
     private EditText            m_etSignupPassword;
 
@@ -87,6 +89,7 @@ public class SplashActivity extends AppCompatActivity {
 
         m_etLoginEmail = (EditText)findViewById(R.id.et_email);
         m_etLoginPassword = (EditText)findViewById(R.id.et_password);
+        m_etSignupUsername = (EditText)findViewById(R.id.et_signup_username);
         m_etSignupEmail = (EditText) findViewById(R.id.et_signup_email);
         m_etSignupPassword = (EditText) findViewById(R.id.et_signup_password);
 
@@ -113,7 +116,7 @@ public class SplashActivity extends AppCompatActivity {
         m_videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                m_vLogin.setVisibility(View.VISIBLE);
+                onCompletedSplashVideo();
             }
         });
 
@@ -155,21 +158,36 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
+    private void onCompletedSplashVideo() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String username = sharedPreferences.getString(USERNAME_KEY, "");
+        String email = sharedPreferences.getString(EMAIL_KEY, "");
+        String password = sharedPreferences.getString(PASSWORD_KEY, "");
+
+        if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, R.string.not_signup, Toast.LENGTH_SHORT).show();
+            m_vLogin.setVisibility(View.VISIBLE);
+        } else {
+            ///////////////Integrate with Indiegogo///////////////
+            new HttpAsyncTask(this).execute(username, email);
+        }
+    }
+
     private void logIn() {
         final String email = m_etLoginEmail.getText().toString();
         final String password = m_etLoginPassword.getText().toString();
 
         if (email.isEmpty()) {
-            Toast.makeText(this, R.string.empty_email, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.empty_email, Toast.LENGTH_SHORT).show();
             return;
         }
         if (password.isEmpty()) {
-            Toast.makeText(this, R.string.empty_password, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.empty_password, Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (checkNetwork()) {
-            m_vWaiting.setVisibility(View.VISIBLE);
+            showWaiting(true);
             final FirebaseAuth auth =  FirebaseAuth.getInstance();
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -187,26 +205,12 @@ public class SplashActivity extends AppCompatActivity {
                                 Toast.makeText(SplashActivity.this, R.string.auth_failed,
                                         Toast.LENGTH_SHORT).show();
                             }
-                            m_vWaiting.setVisibility(View.GONE);
+                            showWaiting(false);
                         }
                     });
         } else {
-            loginLocal(email, password);
-        }
-    }
-
-    private void loginLocal(String inEmail, String inPassword) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String contribute = sharedPreferences.getString(CONTRIBUTE_KEY, "1");
-        String email = sharedPreferences.getString(EMAIL_KEY, "");
-        String password = sharedPreferences.getString(PASSWORD_KEY, "");
-
-        if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, R.string.not_signup, Toast.LENGTH_SHORT).show();
-        } else {
-            if (inEmail.equals(email) && inPassword.equals(password)) {
-                updateUI(contribute);
-            }
+            Toast.makeText(SplashActivity.this, R.string.network_failed,
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -253,6 +257,7 @@ public class SplashActivity extends AppCompatActivity {
     private void firebaseLoginSuccess(String email, String password, FirebaseUser user) {
         String userID = user.getUid();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String username = sharedPreferences.getString(USERNAME_KEY, "");
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(USERID_KEY, userID);
@@ -260,35 +265,41 @@ public class SplashActivity extends AppCompatActivity {
         editor.putString(PASSWORD_KEY, password);
         editor.commit();
 
-        String contribute = sharedPreferences.getString(CONTRIBUTE_KEY, "1");
-
-        updateUI(contribute);
+        ///////////////Integrate with Indiegogo///////////////
+        new HttpAsyncTask(this).execute(username, email);
     }
 
     private void signUp() {
+        final String username = m_etSignupUsername.getText().toString().trim();
         final String email = m_etSignupEmail.getText().toString().trim();
         final String password = m_etSignupPassword.getText().toString();
 
+        if (username.isEmpty()) {
+            Toast.makeText(this, R.string.empty_username, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Toast.makeText(this, R.string.confirm_username, Toast.LENGTH_SHORT).show();
+
         if (email.isEmpty()) {
-            Toast.makeText(this, R.string.empty_email, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.empty_email, Toast.LENGTH_SHORT).show();
             return;
         }
         if (!isValidEmail(email)) {
-            Toast.makeText(this, R.string.invalide_email, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.invalide_email, Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (password.isEmpty()) {
-            Toast.makeText(this, R.string.empty_password, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.empty_password, Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (password.length() < 6) {
-            Toast.makeText(this, R.string.password_len, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.password_len, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        m_vWaiting.setVisibility(View.VISIBLE);
+        showWaiting(true);
         final FirebaseAuth auth =  FirebaseAuth.getInstance();
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -299,7 +310,7 @@ public class SplashActivity extends AppCompatActivity {
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = auth.getCurrentUser();
 
-                            signupSuccess(email, password, user);
+                            signupSuccess(username, email, password, user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -307,7 +318,7 @@ public class SplashActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             //updateUI(null);
                         }
-                        m_vWaiting.setVisibility(View.GONE);
+                        showWaiting(false);
                         // ...
                     }
                 });
@@ -317,33 +328,27 @@ public class SplashActivity extends AppCompatActivity {
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    private void signupSuccess(String email, String password, FirebaseUser user) {
+    private void signupSuccess(String username, String email, String password, FirebaseUser user) {
         String userID = user.getUid();
-        String contribute = "1";
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(USERID_KEY, userID);
+        editor.putString(USERNAME_KEY, username);
         editor.putString(EMAIL_KEY, email);
         editor.putString(PASSWORD_KEY, password);
-        editor.putString(CONTRIBUTE_KEY, contribute);
         editor.commit();
 
-        new HttpAsyncTask(getApplicationContext()).execute(email);
+        new HttpAsyncTask(this).execute(username, email);
 /*
         User userInfo = new User("zenith", email, contribute, "");
 
         DatabaseReference   database = FirebaseDatabase.getInstance().getReference();
         database.child("users").child(userID).setValue(userInfo);
 */
-        updateUI(contribute);
+//        updateUI(contribute);
     }
 
-    private void updateUI(String contribute) {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.putExtra("contribute", contribute);
-        startActivity(intent);
-        finish();
-    }
 
     private void forgotPassword() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -391,6 +396,14 @@ public class SplashActivity extends AppCompatActivity {
         builder.show();
     }
 
+    public void showWaiting(boolean isWaiting) {
+        if (isWaiting) {
+            m_vWaiting.setVisibility(View.VISIBLE);
+        } else {
+            m_vWaiting.setVisibility(View.INVISIBLE);
+        }
+    }
+
     @Override
     public void onBackPressed() {
         if (m_blSignup) {
@@ -401,4 +414,5 @@ public class SplashActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
 }

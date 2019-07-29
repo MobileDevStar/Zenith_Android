@@ -470,21 +470,31 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     } else if (m_curVideoInfo.state == VideoInfo.SWIPE_STATE) {
+                        int prevIndex = m_iVideoIndex;
+                        VideoInfo prevVideoInfo = m_curVideoInfo;
                         m_iVideoIndex++;
-                        if (m_iVideoIndex < m_videoList.size() || m_iVideoIndex >= 0) {
-                            m_curVideoInfo = m_videoList.get(m_iVideoIndex);
-                            if (orientation == 0) {
-                                if (e.getX() < m_iScreenWidth / 2) {
-                                    playLeftVideo();
+                        if (m_iVideoIndex >= m_videoList.size()) {
+                            m_iVideoIndex = 0;
+                        }
+                        
+                        m_curVideoInfo = m_videoList.get(m_iVideoIndex);
+
+                        if (orientation == 0) {
+                            if (e.getX() < m_iScreenWidth / 2) {
+                                if (m_curVideoInfo.locked == true || m_curVideoInfo.leftLink == null) {
+                                    m_iVideoIndex = prevIndex;
+                                    m_curVideoInfo = prevVideoInfo;
                                 } else {
-                                    playRightVideo();
+                                    playLeftVideo();
                                 }
                             } else {
-                                if (e.getX() < m_iScreenHeight / 2) {
-                                    playLeftVideo();
-                                } else {
-                                    playRightVideo();
-                                }
+                                playRightVideo();
+                            }
+                        } else {
+                            if (e.getX() < m_iScreenHeight / 2) {
+                                playLeftVideo();
+                            } else {
+                                playRightVideo();
                             }
                         }
                     }

@@ -149,6 +149,18 @@
         app:layout_constraintVertical_bias="1.0">
 
         <ImageView
+            android:id="@+id/iv_signup_username"
+            android:layout_width="@dimen/iv_email_width"
+            android:layout_height="@dimen/iv_email_height"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:contentDescription="@string/empty_image"
+            app:layout_constraintBottom_toTopOf="@+id/et_signup_username"
+            app:layout_constraintEnd_toEndOf="@+id/v_signup"
+            app:layout_constraintStart_toStartOf="@+id/v_signup"
+            app:srcCompat="@drawable/email" />
+
+        <ImageView
             android:id="@+id/iv_signup_email"
             android:layout_width="@dimen/iv_email_width"
             android:layout_height="@dimen/iv_email_height"
@@ -170,6 +182,21 @@
             app:layout_constraintEnd_toEndOf="@+id/v_signup"
             app:layout_constraintStart_toStartOf="@+id/v_signup"
             app:srcCompat="@drawable/password" />
+
+        <EditText
+            android:id="@+id/et_signup_username"
+            android:layout_width="@dimen/et_email_width"
+            android:layout_height="@dimen/et_email_height"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:padding="@dimen/et_padding"
+            android:background="@color/login_edit"
+            android:ems="10"
+            android:inputType="text"
+            app:layout_constraintBottom_toTopOf="@+id/iv_signup_email"
+            app:layout_constraintEnd_toEndOf="@+id/v_signup"
+            app:layout_constraintStart_toStartOf="@+id/v_signup" />
 
         <EditText
             android:id="@+id/et_signup_email"
