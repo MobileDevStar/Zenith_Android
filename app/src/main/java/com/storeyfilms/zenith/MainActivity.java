@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
         m_videoList = new ArrayList<VideoInfo>();
 
         //if (!loadVideoData(m_iContribute))  return;
-        if (!loadVideoData("50"))  return;
+        if (!loadVideoData(m_iContribute))  return;
 
 /*
 
