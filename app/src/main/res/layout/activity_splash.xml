@@ -150,15 +150,15 @@
 
         <ImageView
             android:id="@+id/iv_signup_username"
-            android:layout_width="@dimen/iv_email_width"
-            android:layout_height="@dimen/iv_email_height"
+            android:layout_width="@dimen/iv_password_width"
+            android:layout_height="@dimen/iv_password_height"
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
             android:contentDescription="@string/empty_image"
             app:layout_constraintBottom_toTopOf="@+id/et_signup_username"
             app:layout_constraintEnd_toEndOf="@+id/v_signup"
             app:layout_constraintStart_toStartOf="@+id/v_signup"
-            app:srcCompat="@drawable/email" />
+            app:srcCompat="@drawable/username" />
 
         <ImageView
             android:id="@+id/iv_signup_email"
@@ -230,8 +230,8 @@
 
         <ImageView
             android:id="@+id/iv_but_signup"
-            android:layout_width="@dimen/but_login_width"
-            android:layout_height="@dimen/but_login_height"
+            android:layout_width="@dimen/but_signup_width"
+            android:layout_height="@dimen/but_signup_height"
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginTop="@dimen/login_top_margin"
             android:layout_marginEnd="@dimen/default_margin"
@@ -239,7 +239,7 @@
             app:layout_constraintEnd_toEndOf="@+id/v_signup"
             app:layout_constraintStart_toStartOf="@+id/v_signup"
             app:layout_constraintTop_toBottomOf="@+id/et_signup_password"
-            app:srcCompat="@drawable/login" />
+            app:srcCompat="@drawable/signup" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -545,6 +545,45 @@ public class MainActivity extends AppCompatActivity {
                                 Log.i("TAG", "ppppppppppppppppppppp");
                             }
                         }
+                    } else if (m_curVideoInfo.state == VideoInfo.SWIPE_STATE) {
+                        float orientation = event1.getOrientation();
+                        if (orientation == 0) {
+                            if (event1.getX() < m_iScreenWidth / 2) {
+                                if (velocityX > 0) {
+                                    m_iVideoIndex++;
+                                    if (m_iVideoIndex >= m_videoList.size()) {
+                                        m_iVideoIndex = 0;
+                                    }
+
+                                    m_curVideoInfo = m_videoList.get(m_iVideoIndex);
+                                    playSwipeVideo();
+                                } else {
+                                    m_iVideoIndex--;
+                                    if (m_iVideoIndex < 0) {
+                                        m_iVideoIndex = m_videoList.size() - 1;
+                                    }
+                                    playLoopVideo();
+                                }
+                            }
+                        } else {
+                            if (event1.getX() < m_iScreenHeight / 2) {
+                                if (velocityX > 0) {
+                                    m_iVideoIndex++;
+                                    if (m_iVideoIndex >= m_videoList.size()) {
+                                        m_iVideoIndex = 0;
+                                    }
+
+                                    m_curVideoInfo = m_videoList.get(m_iVideoIndex);
+                                    playSwipeVideo();
+                                } else {
+                                    m_iVideoIndex--;
+                                    if (m_iVideoIndex < 0) {
+                                        m_iVideoIndex = m_videoList.size() - 1;
+                                    }
+                                    playLoopVideo();
+                                }
+                            }
+                        }
                     }
                 }
             }
