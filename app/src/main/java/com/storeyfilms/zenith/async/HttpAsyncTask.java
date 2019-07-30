@@ -53,6 +53,7 @@ public class HttpAsyncTask extends AsyncTask<String, Void, Response> {
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.indiegogo.com/2/campaigns/2526147/contributions.json").newBuilder();
         urlBuilder.addQueryParameter("api_token", api_token);
+        urlBuilder.addQueryParameter("email", email);
         String url = urlBuilder.build().toString();
 
         Request request = new Request.Builder()
@@ -85,8 +86,8 @@ public class HttpAsyncTask extends AsyncTask<String, Void, Response> {
                     int len = contAry.length();
                     for (int i = 0; i< len; i++) {
                         JSONObject contObj = contAry.getJSONObject(i);
-                        String user = contObj.getString("by");
-                        if (!user.equalsIgnoreCase(m_curUser)) continue;
+                        //String user = contObj.getString("by");
+                        //if (!user.equalsIgnoreCase(m_curUser)) continue;
 
                         int amount = contObj.getInt("amount");
                         if (maxContribute < amount) {

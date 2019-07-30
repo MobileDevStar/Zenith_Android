@@ -280,7 +280,6 @@ public class SplashActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.empty_username, Toast.LENGTH_SHORT).show();
             return;
         }
-        Toast.makeText(this, R.string.confirm_username, Toast.LENGTH_SHORT).show();
 
         if (email.isEmpty()) {
             Toast.makeText(this, R.string.empty_email, Toast.LENGTH_SHORT).show();
