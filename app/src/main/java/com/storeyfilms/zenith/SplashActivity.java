@@ -63,6 +63,7 @@ public class SplashActivity extends AppCompatActivity {
     private ImageView           m_ivButSignup;
     private ImageView           m_ivRegister;
     private ImageView           m_ivForgotPassword;
+    private ImageView           m_ivDonate;
 
     private EditText            m_etLoginEmail;
     private EditText            m_etLoginPassword;
@@ -91,6 +92,7 @@ public class SplashActivity extends AppCompatActivity {
         m_etLoginEmail = (EditText)findViewById(R.id.et_email);
         m_etLoginPassword = (EditText)findViewById(R.id.et_password);
         m_etSignupUsername = (EditText)findViewById(R.id.et_signup_username);
+        m_etSignupUsername.setText("David Storey");
         m_etSignupEmail = (EditText) findViewById(R.id.et_signup_email);
         m_etSignupPassword = (EditText) findViewById(R.id.et_signup_password);
 
@@ -98,6 +100,7 @@ public class SplashActivity extends AppCompatActivity {
         m_ivButSignup = (ImageView) findViewById(R.id.iv_but_signup);
         m_ivRegister = (ImageView) findViewById(R.id.iv_register);
         m_ivForgotPassword = (ImageView) findViewById(R.id.iv_forgot_password);
+        m_ivDonate = (ImageView) findViewById(R.id.iv_donate);
 
         m_vWaiting = (View) findViewById(R.id.v_waiting);
 
@@ -141,6 +144,13 @@ public class SplashActivity extends AppCompatActivity {
                 m_blSignup = true;
                 m_vLogin.setVisibility(View.INVISIBLE);
                 m_vSignup.setVisibility(View.VISIBLE);
+            }
+        });
+
+        m_ivDonate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                donate();
             }
         });
 
@@ -415,6 +425,13 @@ public class SplashActivity extends AppCompatActivity {
         } else {
             m_vWaiting.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void donate() {
+        String url = "https://www.indiegogo.com/";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
     }
 
     @Override

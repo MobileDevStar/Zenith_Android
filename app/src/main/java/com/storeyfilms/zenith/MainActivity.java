@@ -558,10 +558,10 @@ public class MainActivity extends AppCompatActivity {
                                     m_curVideoInfo = m_videoList.get(m_iVideoIndex);
                                     playSwipeVideo();
                                 } else {
-                                    m_iVideoIndex--;
-                                    if (m_iVideoIndex < 0) {
-                                        m_iVideoIndex = m_videoList.size() - 1;
-                                    }
+//                                    m_iVideoIndex--;
+//                                    if (m_iVideoIndex < 0) {
+//                                        m_iVideoIndex = m_videoList.size() - 1;
+//                                    }
                                     playLoopVideo();
                                 }
                             }
@@ -576,10 +576,10 @@ public class MainActivity extends AppCompatActivity {
                                     m_curVideoInfo = m_videoList.get(m_iVideoIndex);
                                     playSwipeVideo();
                                 } else {
-                                    m_iVideoIndex--;
-                                    if (m_iVideoIndex < 0) {
-                                        m_iVideoIndex = m_videoList.size() - 1;
-                                    }
+//                                    m_iVideoIndex--;
+//                                    if (m_iVideoIndex < 0) {
+//                                        m_iVideoIndex = m_videoList.size() - 1;
+//                                    }
                                     playLoopVideo();
                                 }
                             }

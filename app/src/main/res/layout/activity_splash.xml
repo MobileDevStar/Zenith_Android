@@ -154,6 +154,7 @@
             android:layout_height="@dimen/iv_password_height"
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
+            android:visibility="gone"
             android:contentDescription="@string/empty_image"
             app:layout_constraintBottom_toTopOf="@+id/et_signup_username"
             app:layout_constraintEnd_toEndOf="@+id/v_signup"
@@ -190,6 +191,7 @@
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
+            android:visibility="gone"
             android:padding="@dimen/et_padding"
             android:background="@color/login_edit"
             android:ems="10"
@@ -240,6 +242,29 @@
             app:layout_constraintStart_toStartOf="@+id/v_signup"
             app:layout_constraintTop_toBottomOf="@+id/et_signup_password"
             app:srcCompat="@drawable/signup" />
+
+        <ImageView
+            android:id="@+id/iv_donate"
+            android:layout_width="@dimen/iv_register_width"
+            android:layout_height="@dimen/iv_register_height"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/v_signup"
+            app:layout_constraintStart_toStartOf="@+id/v_signup"
+            app:srcCompat="@drawable/donate" />
+
+        <ImageView
+            android:id="@+id/iv_unlock"
+            android:layout_width="@dimen/iv_noaccount_width"
+            android:layout_height="@dimen/iv_noaccount_height"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintBottom_toTopOf="@+id/iv_donate"
+            app:layout_constraintEnd_toEndOf="@+id/v_signup"
+            app:layout_constraintStart_toStartOf="@+id/v_signup"
+            app:srcCompat="@drawable/unlock" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
