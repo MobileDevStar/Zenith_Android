@@ -13,6 +13,9 @@
     <dimen name="iv_noaccount_width">300dp</dimen>
     <dimen name="iv_noaccount_height">20dp</dimen>
 
+    <dimen name="iv_donate_width">300dp</dimen>
+    <dimen name="iv_donate_height">40dp</dimen>
+
     <dimen name="iv_register_width">180dp</dimen>
     <dimen name="iv_register_height">20dp</dimen>
 

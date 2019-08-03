@@ -245,26 +245,15 @@
 
         <ImageView
             android:id="@+id/iv_donate"
-            android:layout_width="@dimen/iv_register_width"
-            android:layout_height="@dimen/iv_register_height"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="24dp"
+            android:layout_width="@dimen/iv_donate_width"
+            android:layout_height="@dimen/iv_donate_height"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_bottom_margin"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/v_signup"
-            app:layout_constraintStart_toStartOf="@+id/v_signup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/donate" />
-
-        <ImageView
-            android:id="@+id/iv_unlock"
-            android:layout_width="@dimen/iv_noaccount_width"
-            android:layout_height="@dimen/iv_noaccount_height"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            app:layout_constraintBottom_toTopOf="@+id/iv_donate"
-            app:layout_constraintEnd_toEndOf="@+id/v_signup"
-            app:layout_constraintStart_toStartOf="@+id/v_signup"
-            app:srcCompat="@drawable/unlock" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,10 +1,8 @@
 package com.storeyfilms.zenith.async;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -19,10 +17,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import okhttp3.HttpUrl;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class HttpAsyncTask extends AsyncTask<String, Void, Response> {
@@ -47,7 +43,7 @@ public class HttpAsyncTask extends AsyncTask<String, Void, Response> {
         String username = params[0];
         String email = params[1];
         m_curUser = username;
-        String api_token = "6293ec4d339638fcf3400178cb640c0c3de82c25ec8fbe3dfadb300c1c044b89";
+        String api_token = SplashActivity.API_TOKEN;
 
         OkHttpClient client = new OkHttpClient();
 

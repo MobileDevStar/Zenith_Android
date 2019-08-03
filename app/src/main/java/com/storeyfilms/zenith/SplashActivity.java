@@ -58,6 +58,8 @@ public class SplashActivity extends AppCompatActivity {
     private final String        PASSWORD_KEY = "password";
     public static final String  CONTRIBUTE_KEY = "contribute";
 
+    public static final String  API_TOKEN = "6293ec4d339638fcf3400178cb640c0c3de82c25ec8fbe3dfadb300c1c044b89";
+
     private VideoView           m_videoView;
     private ImageView           m_ivButLogin;
     private ImageView           m_ivButSignup;
@@ -104,7 +106,7 @@ public class SplashActivity extends AppCompatActivity {
 
         m_vWaiting = (View) findViewById(R.id.v_waiting);
 
-        int res_id = getResources().getIdentifier("title_login_480_sound",
+        int res_id = getResources().getIdentifier("title_login_480",
                 "raw", getPackageName());
         Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.toString(res_id));
 
@@ -226,39 +228,6 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private boolean checkNetwork() {
-       /*Socket socket;
-        final String host = "www.google.com";
-        final int port = 80;
-        final int timeout = 30000;   // 30 seconds
-
-        try {
-            socket = new Socket();
-            socket.connect(new InetSocketAddress(host, port), timeout);
-        }
-        catch (UnknownHostException uhe) {
-            Log.e("GoogleSock", "I couldn't resolve the host you've provided!");
-            return false;
-        }
-        catch (SocketTimeoutException ste) {
-            Log.e("GoogleSock", "After a reasonable amount of time, I'm not able to connect, Google is probably down!");
-            return false;
-        }
-        catch (IOException ioe) {
-            Log.e("GoogleSock", "Hmmm... Sudden disconnection, probably you should start again!");
-            return false;
-        }
-
-        return true;*/
-       /* try {
-            boolean reachable = InetAddress.getByName("www.google.com").isReachable(100000);
-            return reachable;
-            //InetAddress ipAddr = InetAddress.getByName("www.google.com");
-            //You can replace it with your name
-            //return !ipAddr.equals("");
-
-        } catch (Exception e) {
-            return false;
-        }*/
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
@@ -375,7 +344,8 @@ public class SplashActivity extends AppCompatActivity {
 
     private void forgotPassword() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Forgot Password");
+        builder.setTitle("Forgot Password?");
+        builder.setMessage("Enter email address");
 
         String prevEmail = m_etLoginEmail.getText().toString();
 
@@ -428,7 +398,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void donate() {
-        String url = "https://www.indiegogo.com/";
+        String url = "https://www.indiegogo.com/project/preview/031584c9";
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
