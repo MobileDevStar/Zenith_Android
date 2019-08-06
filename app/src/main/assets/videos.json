@@ -11,12 +11,16 @@
                     "leftLink": {
                         "name": "Twitter",
                         "link": "zenithzeromovie",
-                        "video": "twitter_prize_push_480"
+                        "video": "twitter_prize_push_480",
+                        "reserved1": "",
+                        "reserved2": ""
                     },
                     "rightLink": {
                         "name": "Indiegogo",
                         "link": "https://www.indiegogo.com/project/preview/031584c9",
-                        "video": "twitter_prize_gaia_indiegogo_480"
+                        "video": "twitter_prize_gaia_indiegogo_480",
+                        "reserved1": "",
+                        "reserved2": ""
                     }
                 },
                 {
@@ -27,12 +31,16 @@
                     "leftLink": {
                         "name": "Snapchat",
                         "link": "zenithzeromovie",
-                        "video": "snapchat_prize_push_480"
+                        "video": "snapchat_prize_push_480",
+                        "reserved1": "",
+                        "reserved2": ""
                     },
                     "rightLink": {
                         "name": "Indiegogo",
                         "link": "https://www.indiegogo.com/project/preview/031584c9",
-                        "video": "snapchat_prize_gaia_indiegogo_480"
+                        "video": "snapchat_prize_gaia_indiegogo_480",
+                        "reserved1": "",
+                        "reserved2": ""
                     }
                 },
                 {
@@ -45,7 +53,9 @@
                     "rightLink": {
                         "name": "Indiegogo",
                         "link": "https://www.indiegogo.com/project/preview/031584c9",
-                        "video": "lock_z_button_prize_gaia_indiegogo_480"
+                        "video": "lock_z_button_prize_gaia_indiegogo_480",
+                        "reserved1": "",
+                        "reserved2": ""
                     }
                 },
                 {
@@ -58,7 +68,9 @@
                     "rightLink": {
                         "name": "Indiegogo",
                         "link": "https://www.indiegogo.com/project/preview/031584c9",
-                        "video": "lock_instagram_prize_gaia_indiegogo_480"
+                        "video": "lock_instagram_prize_gaia_indiegogo_480",
+                        "reserved1": "",
+                        "reserved2": ""
                     }
                 },
                 {
@@ -71,20 +83,44 @@
                     "rightLink": {
                         "name": "Indiegogo",
                         "link": "https://www.indiegogo.com/project/preview/031584c9",
-                        "video": "lock_schematics_prize_gaia_indiegogo_480"
+                        "video": "lock_schematics_prize_gaia_indiegogo_480",
+                        "reserved1": "",
+                        "reserved2": ""
                     }
                 },
                 {
                     "subject": "Story",
                     "locked": true,
-                    "loopVideo": "lock_story_prize_loop_vo",
-                    "swipeVideo": "lock_story_prize_swipe_to_twitter_480",
+                    "loopVideo": "lock_story_prize_loop_480",
+                    "swipeVideo": "lock_story_prize_swipe_to_replay_480",
                     "leftLink": {
                     },
                     "rightLink": {
                         "name": "Indiegogo",
                         "link": "https://www.indiegogo.com/project/preview/031584c9",
-                        "video": "lock_story_prize_gaia_indiegogo_480"
+                        "video": "lock_story_prize_gaia_indiegogo_480",
+                        "reserved1": "",
+                        "reserved2": ""
+                    }
+                },
+                {
+                    "subject": "Replay",
+                    "locked": false,
+                    "loopVideo": "replay_prize_loop_480",
+                    "swipeVideo": "replay_prize_swipe_to_twitter_480",
+                    "leftLink": {
+                        "name": "Replay",
+                        "link": "InAppVideo",
+                        "video": "replay_prize_push_480",
+                        "reserved1": "",
+                        "reserved2": ""
+                    },
+                    "rightLink": {
+                        "name": "Indiegogo",
+                        "link": "https://www.indiegogo.com/project/preview/031584c9",
+                        "video": "replay_prize_gaia_indiegogo_480",
+                        "reserved1": "",
+                        "reserved2": ""
                     }
                 }
             ],
@@ -97,12 +133,16 @@
                 "leftLink": {
                     "name": "Twitter",
                     "link": "zenithzeromovie",
-                    "video": "twitter_prize_push_480"
+                    "video": "twitter_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "twitter_prize_gaia_indiegogo_480"
+                    "video": "twitter_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
@@ -113,12 +153,16 @@
                 "leftLink": {
                     "name": "Snapchat",
                     "link": "zenithzeromovie",
-                    "video": "snapchat_prize_push_480"
+                    "video": "snapchat_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "snapchat_prize_gaia_indiegogo_480"
+                    "video": "snapchat_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
@@ -129,12 +173,16 @@
                 "leftLink": {
                     "name": "Z_Button",
                     "link": "http://www.zenith0.com",
-                    "video": "z_button_prize_push_480"
+                    "video": "z_button_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "z_button_prize_gaia_indiegogo_480"
+                    "video": "z_button_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
@@ -147,7 +195,9 @@
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "lock_instagram_prize_gaia_indiegogo_480"
+                    "video": "lock_instagram_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
@@ -160,20 +210,44 @@
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "lock_schematics_prize_gaia_indiegogo_480"
+                    "video": "lock_schematics_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
                 "subject": "Story",
                 "locked": true,
-                "loopVideo": "lock_story_prize_loop_vo",
-                "swipeVideo": "lock_story_prize_swipe_to_twitter_480",
+                "loopVideo": "lock_story_prize_loop_480",
+                "swipeVideo": "lock_story_prize_swipe_to_replay_480",
                 "leftLink": {
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "lock_story_prize_gaia_indiegogo_480"
+                    "video": "lock_story_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
+                }
+            },
+            {
+                "subject": "Replay",
+                "locked": false,
+                "loopVideo": "replay_prize_loop_480",
+                "swipeVideo": "replay_prize_swipe_to_twitter_480",
+                "leftLink": {
+                    "name": "Replay",
+                    "link": "InAppVideo",
+                    "video": "replay_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
+                },
+                "rightLink": {
+                    "name": "Indiegogo",
+                    "link": "https://www.indiegogo.com/project/preview/031584c9",
+                    "video": "replay_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             }
         ],
@@ -186,12 +260,16 @@
                 "leftLink": {
                     "name": "Twitter",
                     "link": "zenithzeromovie",
-                    "video": "twitter_prize_push_480"
+                    "video": "twitter_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "twitter_prize_gaia_indiegogo_480"
+                    "video": "twitter_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
@@ -202,12 +280,16 @@
                 "leftLink": {
                     "name": "Snapchat",
                     "link": "zenithzeromovie",
-                    "video": "snapchat_prize_push_480"
+                    "video": "snapchat_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "snapchat_prize_gaia_indiegogo_480"
+                    "video": "snapchat_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
@@ -218,12 +300,16 @@
                 "leftLink": {
                     "name": "Z_Button",
                     "link": "http://www.zenith0.com",
-                    "video": "z_button_prize_push_480"
+                    "video": "z_button_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "z_button_prize_gaia_indiegogo_480"
+                    "video": "z_button_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
@@ -234,12 +320,16 @@
                 "leftLink": {
                     "name": "Instagram",
                     "link": "zenith0archivealpha",
-                    "video": "instagram_prize_push_480"
+                    "video": "instagram_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "instagram_prize_gaia_indiegogo_480"
+                    "video": "instagram_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
@@ -252,20 +342,44 @@
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "lock_schematics_prize_gaia_indiegogo_480"
+                    "video": "lock_schematics_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
                 "subject": "Story",
                 "locked": true,
-                "loopVideo": "lock_story_prize_loop_vo",
-                "swipeVideo": "lock_story_prize_swipe_to_twitter_480",
+                "loopVideo": "lock_story_prize_loop_480",
+                "swipeVideo": "lock_story_prize_swipe_to_replay_480",
                 "leftLink": {
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "lock_story_prize_gaia_indiegogo_480"
+                    "video": "lock_story_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
+                }
+            },
+            {
+                "subject": "Replay",
+                "locked": false,
+                "loopVideo": "replay_prize_loop_480",
+                "swipeVideo": "replay_prize_swipe_to_twitter_480",
+                "leftLink": {
+                    "name": "Replay",
+                    "link": "InAppVideo",
+                    "video": "replay_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
+                },
+                "rightLink": {
+                    "name": "Indiegogo",
+                    "link": "https://www.indiegogo.com/project/preview/031584c9",
+                    "video": "replay_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             }
         ],
@@ -278,12 +392,16 @@
                 "leftLink": {
                     "name": "Twitter",
                     "link": "zenithzeromovie",
-                    "video": "twitter_prize_push_480"
+                    "video": "twitter_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "twitter_prize_gaia_indiegogo_480"
+                    "video": "twitter_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
@@ -294,12 +412,16 @@
                 "leftLink": {
                     "name": "Snapchat",
                     "link": "zenithzeromovie",
-                    "video": "snapchat_prize_push_480"
+                    "video": "snapchat_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "snapchat_prize_gaia_indiegogo_480"
+                    "video": "snapchat_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
@@ -310,12 +432,16 @@
                 "leftLink": {
                     "name": "Z_Button",
                     "link": "http://www.zenith0.com",
-                    "video": "z_button_prize_push_480"
+                    "video": "z_button_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "z_button_prize_gaia_indiegogo_480"
+                    "video": "z_button_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
@@ -326,12 +452,16 @@
                 "leftLink": {
                     "name": "Instagram",
                     "link": "zenith0archivealpha",
-                    "video": "instagram_prize_push_480"
+                    "video": "instagram_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "instagram_prize_gaia_indiegogo_480"
+                    "video": "instagram_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
@@ -342,25 +472,51 @@
                 "leftLink": {
                     "name": "Schematics",
                     "link": "https://www.dropbox.com/sh/5h1dmr8pfk8gnl9/AABL6cIVzKzeBrQiv7jhaYqna?dl=0",
-                    "video": "schematics_prize_push_480"
+                    "video": "schematics_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "schematics_prize_gaia_indiegogo_480"
+                    "video": "schematics_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
                 "subject": "Story",
                 "locked": true,
-                "loopVideo": "lock_story_prize_loop_vo",
-                "swipeVideo": "lock_story_prize_swipe_to_twitter_480",
+                "loopVideo": "lock_story_prize_loop_480",
+                "swipeVideo": "lock_story_prize_swipe_to_replay_480",
                 "leftLink": {
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "lock_story_prize_gaia_indiegogo_480"
+                    "video": "lock_story_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
+                }
+            },
+            {
+                "subject": "Replay",
+                "locked": false,
+                "loopVideo": "replay_prize_loop_480",
+                "swipeVideo": "replay_prize_swipe_to_twitter_480",
+                "leftLink": {
+                    "name": "Replay",
+                    "link": "InAppVideo",
+                    "video": "replay_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
+                },
+                "rightLink": {
+                    "name": "Indiegogo",
+                    "link": "https://www.indiegogo.com/project/preview/031584c9",
+                    "video": "replay_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             }
         ],
@@ -373,12 +529,16 @@
                 "leftLink": {
                     "name": "Twitter",
                     "link": "zenithzeromovie",
-                    "video": "twitter_prize_push_480"
+                    "video": "twitter_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "twitter_prize_gaia_indiegogo_480"
+                    "video": "twitter_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
@@ -389,12 +549,16 @@
                 "leftLink": {
                     "name": "Snapchat",
                     "link": "zenithzeromovie",
-                    "video": "snapchat_prize_push_480"
+                    "video": "snapchat_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "snapchat_prize_gaia_indiegogo_480"
+                    "video": "snapchat_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
@@ -405,12 +569,16 @@
                 "leftLink": {
                     "name": "Z_Button",
                     "link": "http://www.zenith0.com",
-                    "video": "z_button_prize_push_480"
+                    "video": "z_button_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "z_button_prize_gaia_indiegogo_480"
+                    "video": "z_button_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
@@ -421,12 +589,16 @@
                 "leftLink": {
                     "name": "Instagram",
                     "link": "zenith0archivealpha",
-                    "video": "instagram_prize_push_480"
+                    "video": "instagram_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "instagram_prize_gaia_indiegogo_480"
+                    "video": "instagram_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
@@ -437,28 +609,56 @@
                 "leftLink": {
                     "name": "Schematics",
                     "link": "https://www.dropbox.com/sh/5h1dmr8pfk8gnl9/AABL6cIVzKzeBrQiv7jhaYqna?dl=0",
-                    "video": "schematics_prize_push_480"
+                    "video": "schematics_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "schematics_prize_gaia_indiegogo_480"
+                    "video": "schematics_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             },
             {
                 "subject": "Story",
                 "locked": false,
                 "loopVideo": "story_prize_loop_480",
-                "swipeVideo": "story_prize_swipe_to_twitter_480",
+                "swipeVideo": "story_prize_swipe_to_replay_480",
                 "leftLink": {
                     "name": "Story",
                     "link": "https://www.dropbox.com/sh/kab65jyw8hzxrnt/AABe2EskVg163kFh7W8N0DLaa?dl=0",
-                    "video": "story_prize_push_480"
+                    "video": "story_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 },
                 "rightLink": {
                     "name": "Indiegogo",
                     "link": "https://www.indiegogo.com/project/preview/031584c9",
-                    "video": "story_prize_gaia_indiegogo_480"
+                    "video": "story_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
+                }
+            },
+            {
+                "subject": "Replay",
+                "locked": false,
+                "loopVideo": "replay_prize_loop_480",
+                "swipeVideo": "replay_prize_swipe_to_twitter_480",
+                "leftLink": {
+                    "name": "Replay",
+                    "link": "InAppVideo",
+                    "video": "replay_prize_push_480",
+                    "reserved1": "",
+                    "reserved2": ""
+                },
+                "rightLink": {
+                    "name": "Indiegogo",
+                    "link": "https://www.indiegogo.com/project/preview/031584c9",
+                    "video": "replay_prize_gaia_indiegogo_480",
+                    "reserved1": "",
+                    "reserved2": ""
                 }
             }
         ]   

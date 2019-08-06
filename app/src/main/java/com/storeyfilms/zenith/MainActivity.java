@@ -262,14 +262,28 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
             startActivity(i);
+        } else if (m_curVideoInfo.leftLink.name.equalsIgnoreCase("replay")){
+            replayMainVideo();
         }
+    }
+
+    private void replayMainVideo() {
+        m_blIsFirst = true;
+        m_iVideoIndex = -1;
+
+        int res_id = getResources().getIdentifier("after_login_video_to_twitter_prize_480",
+                "raw", m_strPackageName);
+        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.toString(res_id));
+        m_vvMain.setVideoURI(video);
+
+        m_progressBar.setVisibility(View.VISIBLE);
     }
 
     private void initVideoList() {
         m_videoList = new ArrayList<VideoInfo>();
 
-        //if (!loadVideoData(m_strContribute))  return;
-        if (!loadVideoData("50"))  return;
+        if (!loadVideoData(m_strContribute))  return;
+        //if (!loadVideoData("50"))  return;
     }
 
     private String loadJSONFromAsset() {
