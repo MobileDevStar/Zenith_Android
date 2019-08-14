@@ -27,5 +27,5 @@ Zenith Zero
 ## ScreenShots
 
 <div align="center" style="float: left">
-    <img src="./screenshots/portflio_Android.png" alt="Screenshot1" width="40%"/>
+    <img src="./screenshots/portflio_Android.png" alt="Screenshot1" width="60%"/>
 </div>
