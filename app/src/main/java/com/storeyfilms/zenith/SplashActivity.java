@@ -172,7 +172,8 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void onCompletedSplashVideo() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        updateUI("50");
+        /*SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String username = sharedPreferences.getString(USERNAME_KEY, "");
         String email = sharedPreferences.getString(EMAIL_KEY, "");
         String password = sharedPreferences.getString(PASSWORD_KEY, "");
@@ -183,7 +184,14 @@ public class SplashActivity extends AppCompatActivity {
         } else {
             ///////////////Integrate with Indiegogo///////////////
             new HttpAsyncTask(this).execute(username, email);
-        }
+        }*/
+    }
+
+    private void updateUI(String contribute) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("contribute", contribute);
+        startActivity(intent);
+        finish();
     }
 
     private void logIn() {
