@@ -81,60 +81,16 @@ public class MainActivity extends AppCompatActivity {
                 if (m_blIsFirst == true && m_iVideoIndex == -1) {
                     startMainVideo();
                 } else {
-                    if (m_curVideoInfo.state == VideoInfo.LOOP_STATE) {
-                        mediaPlayer.start();
-                    } else if (m_curVideoInfo.state == VideoInfo.LEFT_STATE) {
-                        startLeftLink();
-                    } else if (m_curVideoInfo.state == VideoInfo.RIGHT_STATE) {
-                        startRightLink();
-                    } else if (m_curVideoInfo.state == VideoInfo.SWIPE_STATE) {
-                        m_iVideoIndex++;
-                        if (m_iVideoIndex >= m_videoList.size()) {
-                            m_iVideoIndex = 0;
-                        }
-                        playLoopVideo();
-                    }
-                }
-            }
-        });
-
-/*
-        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" +R.raw.title_login);
-        m_vvSwipe.setVideoURI(video);
-        m_vvSwipe.start();
-
-        m_vvSwipe.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                if (m_blSplash) {
-                    m_butLogin.setVisibility(View.VISIBLE);
-                } else {
-                    m_iVideoIndex++;
-                    startPushVideo();
+                   
                 }
             }
         });
 
 
-
-        m_butLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                m_blSplash = false;
-                m_butLogin.setVisibility(View.INVISIBLE);
-                m_vvSwipe.setVisibility(View.INVISIBLE);
-                m_vvPush.setVisibility(View.VISIBLE);
-
-                m_iVideoIndex = 0;
-                startPushVideo();
-            }
-        });
-*/
         m_vvMain.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
                 m_progressBar.setVisibility(View.GONE);
-                m_vvMain.start();
             }
         });
 
@@ -166,26 +122,12 @@ public class MainActivity extends AppCompatActivity {
         m_curVideoInfo = m_videoList.get(m_iVideoIndex);
         if (m_curVideoInfo == null) return;
 
-        m_curVideoInfo.state = VideoInfo.LOOP_STATE;
-
-        int res_id = getResources().getIdentifier(m_curVideoInfo.loopVideo,
-                "raw", m_strPackageName);
-        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.toString(res_id));
-
-        m_vvMain.setVideoURI(video);
         m_progressBar.setVisibility(View.VISIBLE);
     }
 
     private void playSwipeVideo() {
         if (m_curVideoInfo == null) return;
 
-        m_curVideoInfo.state = VideoInfo.SWIPE_STATE;
-
-        int res_id = getResources().getIdentifier(m_curVideoInfo.swipeVideo,
-                "raw", m_strPackageName);
-        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.toString(res_id));
-
-        m_vvMain.setVideoURI(video);
         m_progressBar.setVisibility(View.VISIBLE);
     }
 
@@ -194,13 +136,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (m_curVideoInfo.locked == true || m_curVideoInfo.leftLink == null) return;
 
-        m_curVideoInfo.state = VideoInfo.LEFT_STATE;
-
-        int res_id = getResources().getIdentifier(m_curVideoInfo.leftLink.video,
-                "raw", m_strPackageName);
-        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.toString(res_id));
-
-        m_vvMain.setVideoURI(video);
         m_progressBar.setVisibility(View.VISIBLE);
     }
 
@@ -209,13 +144,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (m_curVideoInfo.rightLink == null) return;
 
-        m_curVideoInfo.state = VideoInfo.RIGHT_STATE;
-
-        int res_id = getResources().getIdentifier(m_curVideoInfo.rightLink.video,
-                "raw", m_strPackageName);
-        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.toString(res_id));
-
-        m_vvMain.setVideoURI(video);
         m_progressBar.setVisibility(View.VISIBLE);
     }
 
@@ -223,9 +151,7 @@ public class MainActivity extends AppCompatActivity {
         if (m_curVideoInfo == null) return;
         if (m_curVideoInfo.rightLink == null) return;
 
-        String url = m_curVideoInfo.rightLink.link;
         Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(url));
         startActivity(i);
     }
 
@@ -233,48 +159,12 @@ public class MainActivity extends AppCompatActivity {
         if (m_curVideoInfo == null) return;
         if (m_curVideoInfo.leftLink == null) return;
 
-        if (m_curVideoInfo.leftLink.name.equalsIgnoreCase("twitter")) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/" + m_curVideoInfo.leftLink.link)));
-//            try {
-//                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name=" + m_curVideoInfo.leftLink.link)));
-//            }catch (Exception e) {
-//                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/#!/" + m_curVideoInfo.leftLink.link)));
-//            }
-        } else if (m_curVideoInfo.leftLink.name.equalsIgnoreCase("snapchat")) {
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("*/*");
-            intent.setPackage("com.snapchat.android");
-            startActivity(Intent.createChooser(intent, "Open Snapchat"));
-        } else if (m_curVideoInfo.leftLink.name.equalsIgnoreCase("instagram")) {
-            Uri uri = Uri.parse("http://instagram.com/_u/" + m_curVideoInfo.leftLink.link);
-            Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
 
-            likeIng.setPackage("com.instagram.android");
-
-            try {
-                startActivity(likeIng);
-            } catch (ActivityNotFoundException e) {
-                startActivity(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://instagram.com/" + m_curVideoInfo.leftLink.link)));
-            }
-        } else if (m_curVideoInfo.leftLink.name.equalsIgnoreCase("z_button") || m_curVideoInfo.leftLink.name.equalsIgnoreCase("schematics") || m_curVideoInfo.leftLink.name.equalsIgnoreCase("story")) {
-            String url = m_curVideoInfo.leftLink.link;
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(url));
-            startActivity(i);
-        } else if (m_curVideoInfo.leftLink.name.equalsIgnoreCase("replay")){
-            replayMainVideo();
-        }
     }
 
     private void replayMainVideo() {
         m_blIsFirst = true;
         m_iVideoIndex = -1;
-
-        int res_id = getResources().getIdentifier("after_login_video_to_twitter_prize_480",
-                "raw", m_strPackageName);
-        Uri video = Uri.parse("android.resource://com.storeyfilms.zenith/" + Integer.toString(res_id));
-        m_vvMain.setVideoURI(video);
 
         m_progressBar.setVisibility(View.VISIBLE);
     }
@@ -303,46 +193,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean loadVideoData(String contribution) {
-        try {
-            JSONObject obj = new JSONObject(loadJSONFromAsset());
-
-            JSONObject videoJson = obj.getJSONObject("videos");
-            JSONArray videoAry = videoJson.getJSONArray(contribution);
-
-            int len = videoAry.length();
-            for (int i = 0; i< len; i++) {
-                JSONObject videoItem = videoAry.getJSONObject(i);
-
-                String subject = videoItem.getString("subject");
-                boolean locked = videoItem.getBoolean("locked");
-                String loopVideo = videoItem.getString("loopVideo");
-                String swipeVideo = videoItem.getString("swipeVideo");
-                int state = VideoInfo.LOOP_STATE;
-
-                LinkInfo leftLink = null;
-                if (!locked) {
-                    JSONObject leftItem = videoItem.getJSONObject("leftLink");
-
-                    String leftLinkName = leftItem.getString("name");
-                    String leftVideo = leftItem.getString("video");
-                    String leftLinkPath = leftItem.getString("link");
-                    leftLink = new LinkInfo(leftLinkName, leftVideo, leftLinkPath);
-                }
-
-                JSONObject rightItem = videoItem.getJSONObject("rightLink");
-
-                String rightLinkName = rightItem.getString("name");
-                String rightVideo = rightItem.getString("video");
-                String rightLinkPath = rightItem.getString("link");
-                LinkInfo rightLink = new LinkInfo(rightLinkName, rightVideo, rightLinkPath);
-
-                VideoInfo videoInfo = new VideoInfo(subject, locked, loopVideo, swipeVideo, rightLink, leftLink, state);
-                m_videoList.add(videoInfo);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return false;
-        }
         return true;
     }
 
@@ -411,50 +261,6 @@ public class MainActivity extends AppCompatActivity {
                // startMainVideo();
             } else {
                 if (m_curVideoInfo != null) {
-                    float orientation = e.getOrientation();
-                    if (m_curVideoInfo.state == VideoInfo.LOOP_STATE) {
-                        if (orientation == 0) {
-                            if (e.getX() < m_iScreenWidth / 2) {
-                                playLeftVideo();
-                            } else {
-                                playRightVideo();
-                            }
-                        } else {
-                            if (e.getX() < m_iScreenHeight / 2) {
-                                playLeftVideo();
-                            } else {
-                                playRightVideo();
-                            }
-                        }
-                    } else if (m_curVideoInfo.state == VideoInfo.SWIPE_STATE) {
-                        int prevIndex = m_iVideoIndex;
-                        VideoInfo prevVideoInfo = m_curVideoInfo;
-                        m_iVideoIndex++;
-                        if (m_iVideoIndex >= m_videoList.size()) {
-                            m_iVideoIndex = 0;
-                        }
-                        
-                        m_curVideoInfo = m_videoList.get(m_iVideoIndex);
-
-                        if (orientation == 0) {
-                            if (e.getX() < m_iScreenWidth / 2) {
-                                if (m_curVideoInfo.locked == true || m_curVideoInfo.leftLink == null) {
-                                    m_iVideoIndex = prevIndex;
-                                    m_curVideoInfo = prevVideoInfo;
-                                } else {
-                                    playLeftVideo();
-                                }
-                            } else {
-                                playRightVideo();
-                            }
-                        } else {
-                            if (e.getX() < m_iScreenHeight / 2) {
-                                playLeftVideo();
-                            } else {
-                                playRightVideo();
-                            }
-                        }
-                    }
                 }
             }
 
@@ -472,76 +278,6 @@ public class MainActivity extends AppCompatActivity {
                 startMainVideo();
             } else {
                 if (m_curVideoInfo != null) {
-                    if (m_curVideoInfo.state == VideoInfo.LOOP_STATE) {
-                        float orientation = event1.getOrientation();
-                        if (orientation == 0) {
-                            if (event1.getX() < m_iScreenWidth / 2) {
-                                if (velocityX > 0) {
-                                    playSwipeVideo();
-                                } else {
-                                    m_iVideoIndex--;
-                                    if (m_iVideoIndex < 0) {
-                                        m_iVideoIndex = m_videoList.size() - 1;
-                                    }
-                                    playLoopVideo();
-                                }
-                                Log.i("TAG", "000000000000000000000000000");
-                            }
-                        } else {
-                            if (event1.getX() < m_iScreenHeight / 2) {
-                                if (velocityX > 0) {
-                                    playSwipeVideo();
-                                } else {
-                                    m_iVideoIndex--;
-                                    if (m_iVideoIndex < 0) {
-                                        m_iVideoIndex = m_videoList.size() - 1;
-                                    }
-                                    playLoopVideo();
-                                }
-
-                                Log.i("TAG", "ppppppppppppppppppppp");
-                            }
-                        }
-                    } else if (m_curVideoInfo.state == VideoInfo.SWIPE_STATE) {
-                        float orientation = event1.getOrientation();
-                        if (orientation == 0) {
-                            if (event1.getX() < m_iScreenWidth / 2) {
-                                if (velocityX > 0) {
-                                    m_iVideoIndex++;
-                                    if (m_iVideoIndex >= m_videoList.size()) {
-                                        m_iVideoIndex = 0;
-                                    }
-
-                                    m_curVideoInfo = m_videoList.get(m_iVideoIndex);
-                                    playSwipeVideo();
-                                } else {
-//                                    m_iVideoIndex--;
-//                                    if (m_iVideoIndex < 0) {
-//                                        m_iVideoIndex = m_videoList.size() - 1;
-//                                    }
-                                    playLoopVideo();
-                                }
-                            }
-                        } else {
-                            if (event1.getX() < m_iScreenHeight / 2) {
-                                if (velocityX > 0) {
-                                    m_iVideoIndex++;
-                                    if (m_iVideoIndex >= m_videoList.size()) {
-                                        m_iVideoIndex = 0;
-                                    }
-
-                                    m_curVideoInfo = m_videoList.get(m_iVideoIndex);
-                                    playSwipeVideo();
-                                } else {
-//                                    m_iVideoIndex--;
-//                                    if (m_iVideoIndex < 0) {
-//                                        m_iVideoIndex = m_videoList.size() - 1;
-//                                    }
-                                    playLoopVideo();
-                                }
-                            }
-                        }
-                    }
                 }
             }
 

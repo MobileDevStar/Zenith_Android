@@ -58,7 +58,7 @@ public class SplashActivity extends AppCompatActivity {
     private final String        PASSWORD_KEY = "password";
     public static final String  CONTRIBUTE_KEY = "contribute";
 
-    public static final String  API_TOKEN = "6293ec4d339638fcf3400178cb640c0c3de82c25ec8fbe3dfadb300c1c044b89";
+    public static final String  API_TOKEN = "1";
 
     private VideoView           m_videoView;
     private ImageView           m_ivButLogin;
@@ -171,69 +171,7 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
-    private void onCompletedSplashVideo() {
-        updateUI("50");
-        /*SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String username = sharedPreferences.getString(USERNAME_KEY, "");
-        String email = sharedPreferences.getString(EMAIL_KEY, "");
-        String password = sharedPreferences.getString(PASSWORD_KEY, "");
-
-        if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            //Toast.makeText(this, R.string.not_signup, Toast.LENGTH_SHORT).show();
-            m_vLogin.setVisibility(View.VISIBLE);
-        } else {
-            ///////////////Integrate with Indiegogo///////////////
-            new HttpAsyncTask(this).execute(username, email);
-        }*/
-    }
-
-    private void updateUI(String contribute) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("contribute", contribute);
-        startActivity(intent);
-        finish();
-    }
-
-    private void logIn() {
-        final String email = m_etLoginEmail.getText().toString();
-        final String password = m_etLoginPassword.getText().toString();
-
-        if (email.isEmpty()) {
-            Toast.makeText(this, R.string.empty_email, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (password.isEmpty()) {
-            Toast.makeText(this, R.string.empty_password, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (checkNetwork()) {
-            showWaiting(true);
-            final FirebaseAuth auth =  FirebaseAuth.getInstance();
-            auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "signInWithEmail:success");
-                                FirebaseUser user = auth.getCurrentUser();
-                                firebaseLoginSuccess(email, password, user);
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                Toast.makeText(SplashActivity.this, R.string.auth_failed,
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                            showWaiting(false);
-                        }
-                    });
-        } else {
-            Toast.makeText(SplashActivity.this, R.string.network_failed,
-                    Toast.LENGTH_SHORT).show();
-        }
-    }
+    
 
     private boolean checkNetwork() {
         ConnectivityManager connectivityManager
@@ -245,14 +183,6 @@ public class SplashActivity extends AppCompatActivity {
     private void firebaseLoginSuccess(String email, String password, FirebaseUser user) {
         String userID = user.getUid();
         String username = user.getDisplayName();
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(USERID_KEY, userID);
-        editor.putString(USERNAME_KEY, username);
-        editor.putString(EMAIL_KEY, email);
-        editor.putString(PASSWORD_KEY, password);
-        editor.commit();
 
         ///////////////Integrate with Indiegogo///////////////
         new HttpAsyncTask(this).execute(username, email);
@@ -295,31 +225,7 @@ public class SplashActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            final FirebaseUser user = auth.getCurrentUser();
-
-                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                    .setDisplayName(username).build();
-
-                            user.updateProfile(profileUpdates)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                Log.d(TAG, "User profile updated.");
-                                                signupSuccess(username, email, password, user);
-                                                showWaiting(false);
-                                            }
-                                        }
-                                    });
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(SplashActivity.this, R.string.auth_failed,
-                                    Toast.LENGTH_SHORT).show();
-                            showWaiting(false);
-                            //updateUI(null);
-                        }
+                        }    
                     }
                 });
     }
@@ -331,14 +237,7 @@ public class SplashActivity extends AppCompatActivity {
     private void signupSuccess(String username, String email, String password, FirebaseUser user) {
         String userID = user.getUid();
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(USERID_KEY, userID);
-        editor.putString(USERNAME_KEY, username);
-        editor.putString(EMAIL_KEY, email);
-        editor.putString(PASSWORD_KEY, password);
-        editor.commit();
-
+        
         new HttpAsyncTask(this).execute(username, email);
 /*
         User userInfo = new User("zenith", email, contribute, "");
@@ -374,17 +273,7 @@ public class SplashActivity extends AppCompatActivity {
                     return;
                 }
 
-                FirebaseAuth.getInstance().sendPasswordResetEmail(email)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(SplashActivity.this, R.string.email_sent, Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(SplashActivity.this, R.string.email_failed, Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -406,9 +295,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void donate() {
-        String url = "https://www.indiegogo.com/project/preview/031584c9";
         Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(url));
         startActivity(i);
     }
 

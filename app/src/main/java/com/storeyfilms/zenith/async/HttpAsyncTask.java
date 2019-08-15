@@ -47,7 +47,7 @@ public class HttpAsyncTask extends AsyncTask<String, Void, Response> {
 
         OkHttpClient client = new OkHttpClient();
 
-        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.indiegogo.com/2/campaigns/2526147/contributions.json").newBuilder();
+        HttpUrl.Builder urlBuilder = HttpUrl.parse("").newBuilder();
         urlBuilder.addQueryParameter("api_token", api_token);
         urlBuilder.addQueryParameter("email", email);
         String url = urlBuilder.build().toString();
@@ -75,39 +75,7 @@ public class HttpAsyncTask extends AsyncTask<String, Void, Response> {
                 Log.e(TAG, "..................Response success...................");
                 Log.e(TAG, responseData);
                 JSONObject jsonObj = new JSONObject(responseData);
-                if (jsonObj != null) {
-                    JSONArray contAry = jsonObj.getJSONArray("response");
-
-                    int maxContribute = 1;
-                    int len = contAry.length();
-                    for (int i = 0; i< len; i++) {
-                        JSONObject contObj = contAry.getJSONObject(i);
-                        //String user = contObj.getString("by");
-                        //if (!user.equalsIgnoreCase(m_curUser)) continue;
-
-                        int amount = contObj.getInt("amount");
-                        if (maxContribute < amount) {
-                            maxContribute = amount;
-                        }
-                    }
-                    if (maxContribute < 5) {
-                        maxContribute = 1;
-                    } else if (maxContribute < 10) {
-                        maxContribute = 5;
-                    } else if (maxContribute < 20) {
-                        maxContribute = 10;
-                    } else if (maxContribute < 50) {
-                        maxContribute = 20;
-                    } else {
-                        maxContribute = 50;
-                    }
-
-                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(context.CONTRIBUTE_KEY, Integer.toString(maxContribute));
-                    editor.commit();
-
-                    updateUI(Integer.toString(maxContribute));
+                
                 } else {
                     Toast.makeText(context, "Response Error", Toast.LENGTH_SHORT).show();
                 }
@@ -130,9 +98,6 @@ public class HttpAsyncTask extends AsyncTask<String, Void, Response> {
 
 
     private void updateUI(String contribute) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra("contribute", contribute);
-        context.startActivity(intent);
-        context.finish();
+        
     }
 }
